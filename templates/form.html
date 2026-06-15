@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <title>Concept Engineers — Fee Proposal Generator</title>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 14px;
+      background: #f0f4f8;
+      color: #1a202c;
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+    header {
+      background: #1f3355;
+      color: white;
+      padding: 0 32px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    header h1 {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      margin-right: 8px;
+    }
+
+    /* NAV TABS */
+    .nav-tabs {
+      display: flex;
+      gap: 4px;
+      margin-left: 8px;
+    }
+
+    .nav-tab {
+      padding: 8px 18px;
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      color: rgba(255, 255, 255, 0.65);
+      background: transparent;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-tab:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    .nav-tab.active {
+      background: rgba(255, 255, 255, 0.18);
+      color: white;
+    }
+
+    .spacer {
+      flex: 1;
+    }
+
+    .header-badge {
+      font-size: 11px;
+      background: rgba(255, 255, 255, 0.12);
+      padding: 4px 10px;
+      border-radius: 20px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* VIEWS */
+    .view {
+      display: none;
+    }
+
+    .view.active {
+      display: block;
+    }
+
+    /* PROPOSAL FORM */
+    .shell {
+      max-width: 860px;
+      margin: 32px auto;
+      padding: 0 16px 64px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .card-head {
+      background: #f7f9fc;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 12px 20px;
+      font-weight: 600;
+      font-size: 13px;
+      color: #2e75b6;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    .grid2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .grid3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: #4a5568;
+      margin-bottom: 4px;
+    }
+
+    label .opt {
+      font-weight: 400;
+      color: #a0aec0;
+    }
+
+    input[type=text],
+    input[type=email],
+    input[type=date],
+    select,
+    textarea {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #cbd5e0;
+      border-radius: 5px;
+      font-size: 13.5px;
+      color: #2d3748;
+      background: white;
+      transition: border-color .15s;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #2e75b6;
+      box-shadow: 0 0 0 3px rgba(46, 117, 182, .12);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    /* scope checkboxes */
+    .checks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .chk-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 13px;
+      transition: border-color .15s, background .15s;
+      user-select: none;
+    }
+
+    .chk-label input[type=checkbox] {
+      accent-color: #2e75b6;
+      width: 15px;
+      height: 15px;
+    }
+
+    .chk-label:has(input:checked) {
+      border-color: #2e75b6;
+      background: #eef4fb;
+      color: #1f3355;
+    }
+
+    #uw-level-row {
+      display: none;
+      margin-top: 10px;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #uw-level-row.visible {
+      display: flex;
+    }
+
+    /* fee table */
+    .row-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .row-table th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      color: #718096;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .row-table td {
+      padding: 5px 4px;
+      vertical-align: middle;
+    }
+
+    .row-table td:last-child {
+      width: 36px;
+      text-align: center;
+    }
+
+    .amount-cell input {
+      text-align: right;
+    }
+
+    .btn-add {
+      margin-top: 10px;
+      background: none;
+      border: 1.5px dashed #cbd5e0;
+      border-radius: 5px;
+      padding: 7px 14px;
+      font-size: 13px;
+      color: #4a5568;
+      cursor: pointer;
+      width: 100%;
+      transition: border-color .15s, color .15s;
+    }
+
+    .btn-add:hover {
+      border-color: #2e75b6;
+      color: #2e75b6;
+    }
+
+    .btn-del {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #e53e3e;
+      font-size: 18px;
+      line-height: 1;
+      padding: 0 4px;
+      opacity: .6;
+      transition: opacity .15s;
+    }
+
+    .btn-del:hover {
+      opacity: 1;
+    }
+
+    .list-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .list-item input {
+      flex: 1;
+    }
+
+    /* submit bar */
+    .submit-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .btn-submit {
+      background: #1f3355;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 11px 28px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .15s;
+    }
+
+    .btn-submit:hover {
+      background: #2e75b6;
+    }
+
+    .btn-submit:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+    }
+
+    select#output_fmt {
+      width: auto;
+      padding: 8px 10px;
+    }
+
+    .spinner {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      color: #4a5568;
+      font-size: 13px;
+    }
+
+    .spinner.show {
+      display: flex;
+    }
+
+    .spin-ring {
+      width: 18px;
+      height: 18px;
+      border: 2.5px solid #e2e8f0;
+      border-top-color: #2e75b6;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* capability */
+    .cap-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .cap-tile {
+      border: 1.5px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 10px 14px;
+      cursor: pointer;
+      transition: border-color .15s, background .15s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .cap-tile input[type=radio] {
+      accent-color: #2e75b6;
+      width: 15px;
+      height: 15px;
+    }
+
+    .cap-tile:has(input:checked) {
+      border-color: #2e75b6;
+      background: #eef4fb;
+      color: #1f3355;
+    }
+
+    #custom-cap {
+      display: none;
+    }
+
+    #custom-cap.visible {
+      display: block;
+    }
+
+    /* TEMPLATES VIEW */
+    .tpl-page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 28px 20px 60px;
+    }
+
+    .tpl-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .tpl-header h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1f3355;
+    }
+
+    .tpl-header p {
+      font-size: 13px;
+      color: #718096;
+      margin-top: 2px;
+    }
+
+    .btn {
+      padding: 9px 18px;
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-primary {
+      background: #1f3355;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #2e75b6;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #1f3355;
+      border: 1.5px solid #e2e8f0;
+    }
+
+    .btn-outline:hover {
+      border-color: #2e75b6;
+      color: #2e75b6;
+      background: #eef4fb;
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+
+    .btn-danger {
+      background: transparent;
+      color: #ef4444;
+      border: 1.5px solid #fecaca;
+    }
+
+    .btn-danger:hover {
+      background: #fef2f2;
+    }
+
+    /* stats */
+    .stats {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 16px 20px;
+      flex: 1;
+    }
+
+    .stat-card .num {
+      font-size: 28px;
+      font-weight: 800;
+      color: #1f3355;
+    }
+
+    .stat-card .lbl {
+      font-size: 12px;
+      color: #718096;
+      margin-top: 2px;
+    }
+
+    /* toolbar */
+    .toolbar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .search-box {
+      flex: 1;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 9px 12px 9px 36px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 13px;
+      background: white;
+      outline: none;
+    }
+
+    .search-box input:focus {
+      border-color: #2e75b6;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #718096;
+    }
+
+    /* template cards */
+    .templates-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+
+    .template-card {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      overflow: hidden;
+      transition: box-shadow 0.15s, border-color 0.15s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .template-card:hover {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      border-color: #c3d9f0;
+    }
+
+    .tc-head {
+      padding: 16px 18px 12px;
+      flex: 1;
+    }
+
+    .tc-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: #eef4fb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .tc-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1f3355;
+      line-height: 1.3;
+      margin-bottom: 4px;
+    }
+
+    .tc-id {
+      font-size: 11px;
+      color: #718096;
+      font-family: monospace;
+    }
+
+    .tc-meta {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .badge-blue {
+      background: #eef4fb;
+      color: #2e75b6;
+    }
+
+    .badge-green {
+      background: #f0fdf4;
+      color: #16a34a;
+    }
+
+    .badge-grey {
+      background: #f1f5f9;
+      color: #718096;
+    }
+
+    .tc-footer {
+      padding: 12px 18px;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      background: #fafbfc;
+    }
+
+    .tc-date {
+      font-size: 11px;
+      color: #718096;
+      flex: 1;
+    }
+
+    /* skeleton */
+    .skeleton {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.2s infinite;
+      border-radius: 6px;
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: 200% 0;
+      }
+
+      100% {
+        background-position: -200% 0;
+      }
+    }
+
+    .sk-card {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 18px;
+    }
+
+    .sk-line {
+      height: 14px;
+      margin-bottom: 10px;
+    }
+
+    .sk-short {
+      width: 40%;
+    }
+
+    .sk-medium {
+      width: 70%;
+    }
+
+    .sk-long {
+      width: 90%;
+    }
+
+    /* empty state */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #718096;
+      grid-column: 1/-1;
+    }
+
+    .empty-state .icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    .empty-state h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a202c;
+      margin-bottom: 6px;
+    }
+
+    /* signing banner */
+    .signing-banner {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      border: 2px solid #10b981;
+      border-radius: 12px;
+      padding: 18px 24px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      z-index: 9999;
+      max-width: 480px;
+      width: 90%;
+    }
+
+    /* delete modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal {
+      background: white;
+      border-radius: 12px;
+      padding: 28px;
+      width: 400px;
+      max-width: 90vw;
+    }
+
+    .modal h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .modal p {
+      font-size: 13px;
+      color: #718096;
+      margin-bottom: 20px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    @media (max-width: 580px) {
+
+      .grid2,
+      .grid3,
+      .cap-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .submit-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .stats {
+        flex-direction: column;
+      }
+
+      header {
+        padding: 0 16px;
+      }
+
+      .nav-tab span.label {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <h1>Concept Engineers</h1>
+    <div class="nav-tabs">
+      <button class="nav-tab active" id="tab-proposal" onclick="switchTab('proposal')">
+        <span class="label">New Proposal</span>
+      </button>
+      <button class="nav-tab" id="tab-templates" onclick="switchTab('templates')">
+        <span class="label">Templates</span>
+        <span id="tplCount"
+          style="background:rgba(255,255,255,0.2);padding:1px 7px;border-radius:20px;font-size:11px;display:none;"></span>
+      </button>
+    </div>
+    <div class="spacer"></div>
+    <div class="header-badge">CE Proposal System</div>
+  </header>
+
+  <!-- VIEW 1: NEW PROPOSAL FORM -->
+  <div class="view active" id="view-proposal">
+    <div class="shell">
+      <form id="proposalForm" action="/generate" method="POST">
+
+        <!-- 1. DOCUMENT -->
+        <div class="card">
+          <div class="card-head">📄 Document</div>
+          <div class="card-body">
+            <div class="grid3">
+              <div>
+                <label>Proposal Ref</label>
+                <input type="text" name="proposal_ref" placeholder="CE-2026-0412" required>
+              </div>
+              <div>
+                <label>Date</label>
+                <input type="date" name="proposal_date" id="proposalDate">
+              </div>
+              <div>
+                <label>Revision</label>
+                <input type="text" name="revision" value="Rev A">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. CLIENT -->
+        <div class="card">
+          <div class="card-head">🏢 Client &amp; Project</div>
+          <div class="card-body">
+            <div class="grid2" style="margin-bottom:14px">
+              <div>
+                <label>Contact Name <span style="color:#e53e3e">*</span></label>
+                <input type="text" name="contact_name" placeholder="David Lee" required>
+              </div>
+              <div>
+                <label>Company</label>
+                <input type="text" name="company_name" placeholder="Skyline Developments Pty Ltd">
+              </div>
+              <div>
+                <label>Contact Email <span style="color:#e53e3e">*</span></label>
+                <input type="email" name="contact_email" placeholder="david@skyline.com.au">
+              </div>
+              <div>
+                <label>Project / Site Address <span style="color:#e53e3e">*</span></label>
+                <input type="text" name="project_address" placeholder="42 Riverside Drive, Brisbane QLD 4000" required>
+              </div>
+            </div>
+            <div>
+              <label>Project Understanding <span class="opt">(1–2 sentences)</span></label>
+              <textarea name="project_understanding" rows="3"
+                placeholder="We understand the project involves…"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. SCOPE -->
+        <div class="card">
+          <div class="card-head">✅ Scope of Services</div>
+          <div class="card-body">
+            <div class="checks">
+              <label class="chk-label"><input type="checkbox" name="is_da" id="cb_da"> Development Approval (DA)</label>
+              <label class="chk-label"><input type="checkbox" name="is_dd" id="cb_dd"> Detailed Design (DD)</label>
+              <label class="chk-label"><input type="checkbox" name="is_uu" id="cb_uu"> Urban Utilities (UU)</label>
+              <label class="chk-label"><input type="checkbox" name="is_uw" id="cb_uw" onchange="toggleUW()"> Certifier
+                (UW)</label>
+              <label class="chk-label"><input type="checkbox" name="uu_works_only"> UU Works Only</label>
+            </div>
+            <div id="uw-level-row">
+              <label style="margin:0; white-space:nowrap">UW Level:</label>
+              <select name="uw_level">
+                <option value="Minor">Minor</option>
+                <option value="Major">Major</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. CAPABILITY -->
+        <div class="card">
+          <div class="card-head">🏅 Capability Profile</div>
+          <div class="card-body">
+            <div class="cap-grid">
+              <label class="cap-tile"><input type="radio" name="capability_profile" value="residential" checked
+                  onchange="capChange()"> Residential Subdivision</label>
+              <label class="cap-tile"><input type="radio" name="capability_profile" value="commercial"
+                  onchange="capChange()"> Commercial &amp; Industrial</label>
+              <label class="cap-tile"><input type="radio" name="capability_profile" value="infrastructure"
+                  onchange="capChange()"> Civil Infrastructure</label>
+              <label class="cap-tile"><input type="radio" name="capability_profile" value="stormwater"
+                  onchange="capChange()"> Stormwater &amp; Drainage</label>
+              <label class="cap-tile"><input type="radio" name="capability_profile" value="custom"
+                  onchange="capChange()"> Custom…</label>
+            </div>
+            <div id="custom-cap">
+              <div style="margin-bottom:10px">
+                <label>Custom Profile Title</label>
+                <input type="text" name="capability_title" placeholder="e.g. Land Development">
+              </div>
+              <div>
+                <label>Custom Profile Body</label>
+                <textarea name="capability_body" rows="3"
+                  placeholder="Describe your firm's relevant capability…"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. FEE SCHEDULE -->
+        <div class="card">
+          <div class="card-head">💰 Fee Schedule</div>
+          <div class="card-body">
+            <table class="row-table">
+              <thead>
+                <tr>
+                  <th>Service Component</th>
+                  <th style="width:130px">Fee (AUD ex GST)</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="fee-rows">
+                <tr>
+                  <td><input type="text" name="fee_desc[]" placeholder="Development Approval (DA) civil engineering">
+                  </td>
+                  <td class="amount-cell"><input type="text" name="fee_amount[]" placeholder="8,500.00"></td>
+                  <td><button type="button" class="btn-del" onclick="delRow(this)">×</button></td>
+                </tr>
+              </tbody>
+            </table>
+            <button type="button" class="btn-add" onclick="addFeeRow()">+ Add fee line</button>
+
+            <div style="margin-top:20px;border-top:1px solid #e2e8f0;padding-top:16px">
+              <div
+                style="font-size:12px;font-weight:600;color:#4a5568;margin-bottom:10px;text-transform:uppercase;letter-spacing:.4px">
+                Hourly Rates <span style="font-weight:400;color:#a0aec0">(optional)</span>
+              </div>
+              <table class="row-table">
+                <thead>
+                  <tr>
+                    <th>Role</th>
+                    <th style="width:160px">Rate (AUD/hr ex GST)</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="hr-rows"></tbody>
+              </table>
+              <button type="button" class="btn-add" onclick="addHrRow()">+ Add hourly rate</button>
+            </div>
+
+            <div style="margin-top:16px">
+              <label>Payment Terms</label>
+              <input type="text" name="payment_terms"
+                value="Fees are invoiced at agreed milestones, payable within 14 days.">
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. ASSUMPTIONS / EXCLUSIONS -->
+        <div class="card">
+          <div class="card-head">📋 Assumptions &amp; Exclusions</div>
+          <div class="card-body grid2">
+            <div>
+              <label style="margin-bottom:8px">Assumptions</label>
+              <div id="assumption-list">
+                <div class="list-item">
+                  <input type="text" name="assumption[]" placeholder="A current detail survey will be provided.">
+                  <button type="button" class="btn-del" onclick="delRow(this)">×</button>
+                </div>
+              </div>
+              <button type="button" class="btn-add"
+                onclick="addListItem('assumption-list','assumption[]','Add assumption')">+ Add</button>
+            </div>
+            <div>
+              <label style="margin-bottom:8px">Exclusions</label>
+              <div id="exclusion-list">
+                <div class="list-item">
+                  <input type="text" name="exclusion[]" placeholder="Authority application and lodgement fees.">
+                  <button type="button" class="btn-del" onclick="delRow(this)">×</button>
+                </div>
+              </div>
+              <button type="button" class="btn-add"
+                onclick="addListItem('exclusion-list','exclusion[]','Add exclusion')">+ Add</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. SENDER -->
+        <details class="card" style="overflow:visible">
+          <summary class="card-head" style="cursor:pointer;list-style:none;display:flex;justify-content:space-between">
+            <span>👤 Sender Details</span>
+            <span style="color:#a0aec0;font-weight:400">▾</span>
+          </summary>
+          <div class="card-body grid2">
+            <div><label>Name</label><input type="text" name="sender_name" value="Gina Harper"></div>
+            <div><label>Title</label><input type="text" name="sender_title" value="Director"></div>
+            <div><label>Email</label><input type="email" name="sender_email" value="gina@conceptengineers.com.au"></div>
+            <div><label>Phone</label><input type="text" name="sender_phone" value="+61 7 0000 0000"></div>
+          </div>
+        </details>
+
+        <!-- SUBMIT BAR -->
+        <div class="submit-bar">
+          <button type="button" class="btn-submit" id="btnGenerate" onclick="handleGenerate()">
+            Generate Proposal
+          </button>
+          <select name="output_fmt" id="output_fmt" style="cursor:pointer; height:40px;">
+            <option value="docx">Download as DOCX</option>
+            <option value="pdf">Download as PDF</option>
+          </select>
+          <div class="spinner" id="spinner">
+            <div class="spin-ring"></div>
+            <span id="spinnerMsg">Processing…</span>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- VIEW 2: TEMPLATES -->
+  <div class="view" id="view-templates">
+    <div class="tpl-page">
+
+      <div class="tpl-header">
+        <div>
+          <h2>DocuSeal Templates</h2>
+          <p>All uploaded proposal templates from DocuSeal.</p>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <button class="btn btn-outline" onclick="loadTemplates()">🔄 Refresh</button>
+          <button class="btn btn-primary" onclick="switchTab('proposal')">+ New Proposal</button>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats">
+        <div class="stat-card">
+          <div class="num" id="statTotal">—</div>
+          <div class="lbl">Total Templates</div>
+        </div>
+        <div class="stat-card">
+          <div class="num" id="statToday">—</div>
+          <div class="lbl">Created Today</div>
+        </div>
+        <div class="stat-card">
+          <div class="num" id="statWeek">—</div>
+          <div class="lbl">This Week</div>
+        </div>
+      </div>
+
+      <!-- Search -->
+      <div class="toolbar">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="Search by name or ID…" oninput="filterTemplates()">
+        </div>
+      </div>
+
+      <!-- Grid -->
+      <div class="templates-grid" id="templatesGrid">
+        <div class="sk-card">
+          <div class="skeleton sk-line sk-short"></div>
+          <div class="skeleton sk-line sk-long"></div>
+          <div class="skeleton sk-line sk-medium"></div>
+        </div>
+        <div class="sk-card">
+          <div class="skeleton sk-line sk-short"></div>
+          <div class="skeleton sk-line sk-long"></div>
+          <div class="skeleton sk-line sk-medium"></div>
+        </div>
+        <div class="sk-card">
+          <div class="skeleton sk-line sk-short"></div>
+          <div class="skeleton sk-line sk-long"></div>
+          <div class="skeleton sk-line sk-medium"></div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /view-templates -->
+
+
+  <!-- Delete modal -->
+  <div class="modal-backdrop" id="deleteModal">
+    <div class="modal">
+      <h3>Delete Template?</h3>
+      <p id="deleteModalMsg">This will permanently delete the template from DocuSeal.</p>
+      <div class="modal-actions">
+        <button class="btn btn-outline" onclick="closeDeleteModal()">Cancel</button>
+        <button class="btn" style="background:#ef4444;color:white;" onclick="confirmDelete()">Delete</button>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    // TAB SWITCHING
+    function switchTab(tab) {
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('view-' + tab).classList.add('active');
+      document.getElementById('tab-' + tab).classList.add('active');
+      if (tab === 'templates') loadTemplates();
+      window.scrollTo(0, 0);
+    }
+
+    // SET TODAY'S DATE
+    document.getElementById('proposalDate').valueAsDate = new Date();
+
+    // TOAST
+    function showToast(message, type = "success") {
+      Toastify({
+        text: message,
+        duration: 5000,
+        gravity: "top",
+        position: "right",
+        style: {
+          background: type === "success" ? "#10b981" : type === "error" ? "#ef4444" : "#3b82f6",
+          color: "#fff",
+          borderRadius: "8px",
+          padding: "12px 16px",
+          boxShadow: "0 4px 15px rgba(0,0,0,0.2)",
+        },
+        stopOnFocus: true,
+      }).showToast();
+    };
+
+    const fmtDateTime = (date) =>
+      new Date(date).toLocaleString("en-GB", {
+        day: "2-digit",
+        month: "short",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      });
+
+    // FORM HELPERS
+    function toggleUW() {
+      document.getElementById('uw-level-row').classList.toggle('visible', document.getElementById('cb_uw').checked);
+    };
+
+    function capChange() {
+      const val = document.querySelector('[name=capability_profile]:checked')?.value;
+      document.getElementById('custom-cap').classList.toggle('visible', val === 'custom');
+    };
+
+    function addFeeRow() {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td><input type="text" name="fee_desc[]" placeholder="Service description"></td>
+    <td class="amount-cell"><input type="text" name="fee_amount[]" placeholder="0.00"></td>
+    <td><button type="button" class="btn-del" onclick="delRow(this)">×</button></td>`;
+      document.getElementById('fee-rows').appendChild(tr);
+      tr.querySelector('input').focus();
+    };
+
+    function addHrRow() {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td><input type="text" name="hourly_role[]" placeholder="Senior Engineer"></td>
+    <td class="amount-cell"><input type="text" name="hourly_rate[]" placeholder="185.00"></td>
+    <td><button type="button" class="btn-del" onclick="delRow(this)">×</button></td>`;
+      document.getElementById('hr-rows').appendChild(tr);
+      tr.querySelector('input').focus();
+    };
+
+    function addListItem(listId, fieldName, placeholder) {
+      const div = document.createElement('div');
+      div.className = 'list-item';
+      div.innerHTML = `<input type="text" name="${fieldName}" placeholder="${placeholder}">
+    <button type="button" class="btn-del" onclick="delRow(this)">×</button>`;
+      document.getElementById(listId).appendChild(div);
+      div.querySelector('input').focus();
+    };
+
+    function delRow(btn) {
+      const row = btn.closest('tr') || btn.closest('.list-item');
+      if (row) row.remove();
+    };
+
+    // PROPOSAL GENERATION + DOCUSEAL FLOW
+    async function handleGenerate() {
+      const form = document.getElementById('proposalForm');
+      const spinner = document.getElementById('spinner');
+      const spinnerMsg = document.getElementById('spinnerMsg');
+      const btn = document.getElementById('btnGenerate');
+      const contactName = form.querySelector('[name="contact_name"]')?.value.trim();
+      const contactEmail = form.querySelector('[name="contact_email"]')?.value.trim();
+      const projectAddr = form.querySelector('[name="project_address"]')?.value.trim();
+
+      if (!contactName || !contactEmail || !projectAddr) {
+        showToast("Contact Name, Email and Project Address are required", "error");
+        return;
+      }
+
+      btn.disabled = true;
+      spinner.classList.add('show');
+
+      try {
+        // STEP 1 — Generate DOCX as base64
+        spinnerMsg.textContent = "Step 1/3 - Generating document…";
+        const formData = new FormData(form);
+        const genRes = await fetch('/generate?base64=true', { method: 'POST', body: formData });
+        const genData = await genRes.json();
+        if (!genData.success) throw new Error("Document generation failed");
+
+        // STEP 2 — Upload to DocuSeal
+        spinnerMsg.textContent = "Step 2/3 - Uploading to DocuSeal…";
+        const ref = formData.get('proposal_ref') || 'CE';
+        const docType = formData.get('document_type') || 'Proposal';
+        const templateName = `${docType} - ${contactName} - ${ref}`;
+
+        const uploadRes = await fetch('/api/upload-template', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ documentBase64: genData.documentBase64, templateName }),
+        });
+        const uploadData = await uploadRes.json();
+        if (!uploadData.success) throw new Error(uploadData.error || "Upload failed");
+
+        // STEP 3 — Confirm template
+        const getRes = await fetch(`/api/get-template/${uploadData.templateId}`);
+        const getData = await getRes.json();
+        if (!getData.success) throw new Error("Template confirmation failed");
+
+        // STEP 4 — Send to client
+        spinnerMsg.textContent = "Step 3/3 - Sending to client…";
+        const sendRes = await fetch('/api/send-proposal', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            templateId: uploadData.templateId,
+            client_name: contactName,
+            client_email: contactEmail,
+            project_address: projectAddr,
+          }),
+        });
+        const sendData = await sendRes.json();
+        if (!sendData.success) throw new Error(sendData.error || "Send failed");
+
+        showToast(`✅ Proposal sent to ${contactEmail}`, "success");
+
+        // Show signing banner
+        if (sendData.signingUrl) {
+          const old = document.getElementById('signing-banner');
+          if (old) old.remove();
+          const banner = document.createElement('div');
+          banner.id = 'signing-banner';
+          banner.className = 'signing-banner';
+          banner.innerHTML = `
+        <div style="font-weight:700;color:#1f3355;margin-bottom:6px;font-size:15px;">✅ Proposal Sent!</div>
+        <div style="font-size:13px;color:#4a5568;margin-bottom:12px;">
+          Signing email sent to <strong>${contactEmail}</strong>. Share this link directly if needed:
+        </div>
+        <a href="${sendData.signingUrl}" target="_blank"
+           style="display:block;background:#1f3355;color:white;text-align:center;
+                  padding:11px 16px;border-radius:8px;text-decoration:none;
+                  font-weight:600;font-size:13px;margin-bottom:10px;">
+          🔗 Open Client Signing Page
+        </a>
+        <div style="font-size:11px;color:#718096;word-break:break-all;margin-bottom:8px;">${sendData.signingUrl}</div>
+        <div style="display:flex;gap:8px;">
+          <button onclick="navigator.clipboard.writeText('${sendData.signingUrl}').then(()=>showToast('Copied!','success'))"
+                  style="flex:1;padding:7px;border:1.5px solid #1f3355;border-radius:6px;
+                         background:transparent;color:#1f3355;font-size:12px;font-weight:600;cursor:pointer;">
+            📋 Copy Link
+          </button>
+          <button onclick="document.getElementById('signing-banner').remove()"
+                  style="flex:1;padding:7px;border:1.5px solid #e2e8f0;border-radius:6px;
+                         background:transparent;color:#718096;font-size:12px;cursor:pointer;">
+            ✕ Close
+          </button>
+        </div>`;
+          document.body.appendChild(banner);
+        }
+
+        // Auto-download document
+        const fmt = document.getElementById('output_fmt')?.value || 'docx';
+        const ext = fmt === 'pdf' ? '.pdf' : '.docx';
+        const mime = fmt === 'pdf' ? 'application/pdf'
+          : 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+        const a = document.createElement('a');
+        a.href = `data:${mime};base64,${genData.documentBase64}`;
+        a.download = `${ref}${ext}`;
+        a.click();
+
+      } catch (err) {
+        console.error(err);
+        showToast("❌ " + (err.message || "Unknown error"), "error");
+      } finally {
+        btn.disabled = false;
+        spinner.classList.remove('show');
+        spinnerMsg.textContent = "Processing…";
+      }
+    };
+
+    // TEMPLATES
+    let allTemplates = [];
+    let deleteTargetId = null;
+
+    function fmtDate(str) {
+      if (!str) return "—";
+      return new Date(str).toLocaleDateString("en-AU", { day: "numeric", month: "short", year: "numeric" });
+    };
+
+    function isToday(str) {
+      if (!str) return false;
+      return new Date(str).toDateString() === new Date().toDateString();
+    };
+
+    function isThisWeek(str) {
+      if (!str) return false;
+      return (new Date() - new Date(str)) / 86400000 <= 7;
+    };
+
+    function escHtml(s) {
+      return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    };
+
+    async function loadTemplates() {
+      const grid = document.getElementById('templatesGrid');
+      grid.innerHTML = `
+    <div class="sk-card"><div class="skeleton sk-line sk-short"></div><div class="skeleton sk-line sk-long"></div><div class="skeleton sk-line sk-medium"></div></div>
+    <div class="sk-card"><div class="skeleton sk-line sk-short"></div><div class="skeleton sk-line sk-long"></div><div class="skeleton sk-line sk-medium"></div></div>
+    <div class="sk-card"><div class="skeleton sk-line sk-short"></div><div class="skeleton sk-line sk-long"></div><div class="skeleton sk-line sk-medium"></div></div>
+    <div class="sk-card"><div class="skeleton sk-line sk-short"></div><div class="skeleton sk-line sk-long"></div><div class="skeleton sk-line sk-medium"></div></div>
+    <div class="sk-card"><div class="skeleton sk-line sk-short"></div><div class="skeleton sk-line sk-long"></div><div class="skeleton sk-line sk-medium"></div></div>
+    <div class="sk-card"><div class="skeleton sk-line sk-short"></div><div class="skeleton sk-line sk-long"></div><div class="skeleton sk-line sk-medium"></div></div>`;
+
+      try {
+        const resp = await fetch('/api/all-templates');
+        const data = await resp.json();
+        if (!resp.ok || data.error) throw new Error(data.error || "Failed to load");
+
+        allTemplates = data.templates || [];
+
+        // Update stats
+        document.getElementById('statTotal').textContent = allTemplates.length;
+        document.getElementById('statToday').textContent = allTemplates.filter(t => isToday(t.created_at)).length;
+        document.getElementById('statWeek').textContent = allTemplates.filter(t => isThisWeek(t.created_at)).length;
+
+        // Update tab badge
+        const badge = document.getElementById('tplCount');
+        badge.textContent = allTemplates.length;
+        badge.style.display = allTemplates.length ? 'inline' : 'none';
+
+        renderTemplates(allTemplates);
+      } catch (err) {
+        grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
+      <div class="icon">⚠️</div>
+      <h3>Failed to load templates</h3>
+      <p>${err.message}</p>
+      <button class="btn btn-primary" style="margin-top:16px;" onclick="loadTemplates()">Try Again</button>
+    </div>`;
+        showToast(err.message, "error");
+      }
+    };
+
+    function renderTemplates(templates) {
+      const grid = document.getElementById('templatesGrid');
+      if (!templates.length) {
+        grid.innerHTML = `<div class="empty-state">
+      <div class="icon">📄</div>
+      <h3>No templates found</h3>
+      <p>Generate a proposal to create your first template.</p>
+      <button class="btn btn-primary" style="margin-top:16px;" onclick="switchTab('proposal')">+ New Proposal</button>
+    </div>`;
+        return;
+      };
+
+      grid.innerHTML = templates.map(t => {
+        const docCount = (t.documents || []).length;
+        const fieldCount = (t.fields || []).length;
+        const name = t.name || "Untitled Template";
+        const icon = name.toLowerCase().includes("proposal") ? "📋"
+          : name.toLowerCase().includes("variation") ? "🔄"
+            : name.toLowerCase().includes("agreement") ? "🤝" : "📄";
+        return `
+      <div class="template-card" id="tc-${t.id}">
+        <div class="tc-head">
+          <div class="tc-icon">${icon}</div>
+          <div class="tc-name">${escHtml(name)}</div>
+          <div class="tc-id">ID: ${t.id}</div>
+          <div class="tc-id">Name: ${t.author.first_name} ${t.author.last_name}</div>
+          <div class="tc-meta">
+            <span class="badge badge-blue">📄 ${docCount} doc${docCount !== 1 ? "s" : ""}</span>
+            ${fieldCount ? `<span class="badge badge-green">✏️ ${fieldCount} fields</span>` : ""}
+          </div>
+        </div>
+        <div class="tc-footer">
+          <span class="tc-date">Created ${fmtDateTime(t.created_at)}</span>
+          <a href="https://docuseal.com/templates/${t.id}/edit" target="_blank"
+             class="btn btn-outline btn-sm">✏️ Edit</a>
+          <button class="btn btn-danger btn-sm"
+                  onclick="askDelete(${t.id}, '${escHtml(name).replace(/'/g, "\\'")}')">🗑 Delete</button>
+        </div>
+      </div>`;
+      }).join("");
+    };
+
+    function filterTemplates() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      renderTemplates(q ? allTemplates.filter(t =>
+        (t.name || "").toLowerCase().includes(q) || String(t.id).includes(q)
+      ) : allTemplates);
+    };
+
+    function askDelete(id, name) {
+      deleteTargetId = id;
+      document.getElementById('deleteModalMsg').textContent = `Delete "${name}" (ID: ${id})? This cannot be undone.`;
+      document.getElementById('deleteModal').classList.add('open');
+    };
+
+    function closeDeleteModal() {
+      document.getElementById('deleteModal').classList.remove('open');
+      deleteTargetId = null;
+    };
+
+    async function confirmDelete() {
+      if (!deleteTargetId) return;
+      const id = deleteTargetId;
+      closeDeleteModal();
+      try {
+        const resp = await fetch(`/api/delete-template/${id}`, { method: 'DELETE' });
+        const data = await resp.json();
+        if (!resp.ok || data.error) throw new Error(data.error || "Delete failed");
+        document.getElementById(`tc-${id}`)?.remove();
+        allTemplates = allTemplates.filter(t => t.id !== id);
+        document.getElementById('statTotal').textContent = allTemplates.length;
+        document.getElementById('tplCount').textContent = allTemplates.length;
+        showToast("Template deleted", "success");
+      } catch (err) {
+        showToast(err.message, "error");
+      }
+    };
+  </script>
+</body>
+
+</html>

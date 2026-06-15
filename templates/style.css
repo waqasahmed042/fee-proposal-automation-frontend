@@ -1,0 +1,347 @@
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 14px;
+    background: #f0f4f8;
+    color: #1a202c;
+    min-height: 100vh;
+}
+
+header {
+    background: #1f3355;
+    color: white;
+    padding: 18px 32px;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+}
+
+header h1 {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+}
+
+header p {
+    font-size: 13px;
+    color: #93afd4;
+}
+
+.shell {
+    max-width: 860px;
+    margin: 32px auto;
+    padding: 0 16px 64px;
+}
+
+.card {
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.card-head {
+    background: #f7f9fc;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 12px 20px;
+    font-weight: 600;
+    font-size: 13px;
+    color: #2e75b6;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.grid2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.grid3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+}
+
+.span2 {
+    grid-column: span 2;
+}
+
+label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #4a5568;
+    margin-bottom: 4px;
+}
+
+label .opt {
+    font-weight: 400;
+    color: #a0aec0;
+}
+
+input[type=text],
+input[type=email],
+input[type=date],
+select,
+textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #cbd5e0;
+    border-radius: 5px;
+    font-size: 13.5px;
+    color: #2d3748;
+    background: white;
+    transition: border-color .15s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #2e75b6;
+    box-shadow: 0 0 0 3px rgba(46, 117, 182, .12);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* scope checkboxes */
+.checks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.chk-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 13px;
+    transition: border-color .15s, background .15s;
+    user-select: none;
+}
+
+.chk-label input[type=checkbox] {
+    accent-color: #2e75b6;
+    width: 15px;
+    height: 15px;
+}
+
+.chk-label:has(input:checked) {
+    border-color: #2e75b6;
+    background: #eef4fb;
+    color: #1f3355;
+}
+
+/* UW sub-option */
+#uw-level-row {
+    display: none;
+    margin-top: 10px;
+    align-items: center;
+    gap: 10px;
+}
+
+#uw-level-row.visible {
+    display: flex;
+}
+
+/* dynamic fee / hourly rows */
+.row-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.row-table th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    color: #718096;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.row-table td {
+    padding: 5px 4px;
+    vertical-align: middle;
+}
+
+.row-table td:last-child {
+    width: 36px;
+    text-align: center;
+}
+
+.amount-cell input {
+    text-align: right;
+}
+
+.btn-add {
+    margin-top: 10px;
+    background: none;
+    border: 1.5px dashed #cbd5e0;
+    border-radius: 5px;
+    padding: 7px 14px;
+    font-size: 13px;
+    color: #4a5568;
+    cursor: pointer;
+    width: 100%;
+    transition: border-color .15s, color .15s;
+}
+
+.btn-add:hover {
+    border-color: #2e75b6;
+    color: #2e75b6;
+}
+
+.btn-del {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #e53e3e;
+    font-size: 18px;
+    line-height: 1;
+    padding: 0 4px;
+    opacity: .6;
+    transition: opacity .15s;
+}
+
+.btn-del:hover {
+    opacity: 1;
+}
+
+/* list items (assumptions / exclusions) */
+.list-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+}
+
+.list-item input {
+    flex: 1;
+}
+
+/* submit bar */
+.submit-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.btn-submit {
+    background: #1f3355;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 11px 28px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .15s;
+    letter-spacing: 0.2px;
+}
+
+.btn-submit:hover {
+    background: #2e75b6;
+}
+
+.btn-submit:active {
+    transform: translateY(1px);
+}
+
+select#output_fmt {
+    width: auto;
+    padding: 8px 10px;
+}
+
+.spinner {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    color: #4a5568;
+    font-size: 13px;
+}
+
+.spinner.show {
+    display: flex;
+}
+
+.spin-ring {
+    width: 18px;
+    height: 18px;
+    border: 2.5px solid #e2e8f0;
+    border-top-color: #2e75b6;
+    border-radius: 50%;
+    animation: spin .7s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* capability section */
+.cap-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.cap-tile {
+    border: 1.5px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.cap-tile input[type=radio] {
+    accent-color: #2e75b6;
+    width: 15px;
+    height: 15px;
+}
+
+.cap-tile:has(input:checked) {
+    border-color: #2e75b6;
+    background: #eef4fb;
+    color: #1f3355;
+}
+
+#custom-cap {
+    display: none;
+}
+
+#custom-cap.visible {
+    display: block;
+}
