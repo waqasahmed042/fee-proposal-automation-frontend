@@ -77,8 +77,17 @@ def bottom_rule(paragraph, color=RULE, size=8):
     pPr.append(pbdr)
 
 
-def para(text="", style=None, size=None, color=None, bold=False, italic=False,
-         align=None, before=None, after=None):
+def para(
+    text="",
+    style=None,
+    size=None,
+    color=None,
+    bold=False,
+    italic=False,
+    align=None,
+    before=None,
+    after=None,
+):
     p = doc.add_paragraph(style=style)
     if align is not None:
         p.alignment = align
@@ -149,7 +158,9 @@ hr.font.size = Pt(16)
 hr.font.bold = True
 hr.font.color.rgb = NAVY
 hp2 = hdr.add_paragraph()
-hr2 = hp2.add_run("Consulting Civil & Structural Engineers    |    ABN {{ firm_abn }}    |    {{ firm_web }}")
+hr2 = hp2.add_run(
+    "Consulting Civil & Structural Engineers    |    ABN {{ firm_abn }}    |    {{ firm_web }}"
+)
 hr2.font.size = Pt(8)
 hr2.font.color.rgb = GREY
 bottom_rule(hp2)
@@ -157,7 +168,9 @@ bottom_rule(hp2)
 ftr = sec.footer
 fp = ftr.paragraphs[0]
 fp.alignment = WD_ALIGN_PARAGRAPH.CENTER
-run = fp.add_run("{{ document_type }}  |  Ref {{ proposal_ref }}  |  {{ revision }}  |  Page ")
+run = fp.add_run(
+    "{{ document_type }}  |  Ref {{ proposal_ref }}  |  {{ revision }}  |  Page "
+)
 run.font.size = Pt(8)
 run.font.color.rgb = GREY
 # PAGE field
@@ -176,7 +189,9 @@ fp._p.append(fld2)
 # =====================================================================
 para("{{ document_type | upper }}", style="H1")
 meta = para()
-mr = meta.add_run("Ref {{ proposal_ref }}    |    {{ revision }}    |    {{ proposal_date }}")
+mr = meta.add_run(
+    "Ref {{ proposal_ref }}    |    {{ revision }}    |    {{ proposal_date }}"
+)
 mr.font.size = Pt(9)
 mr.font.color.rgb = GREY
 
@@ -221,7 +236,9 @@ para("Our proposed scope for this engagement comprises the following components:
 # --- Development Approval (DA) ---
 tag("{%p if is_da %}")
 para("Development Approval (DA)", bold=True, color=ACCENT, after=2)
-bullet("Preparation of civil engineering plans and reports to support the development application.")
+bullet(
+    "Preparation of civil engineering plans and reports to support the development application."
+)
 bullet("Stormwater management strategy and concept drainage design.")
 bullet("Earthworks, access and servicing concept to satisfy authority requirements.")
 bullet("Liaison with the relevant assessment authority through the DA process.")
@@ -268,21 +285,33 @@ tag("{%p endif %}")
 para("Capability & Experience", style="H2")
 
 capability_blocks = [
-    ("residential", "Residential Subdivision",
-     "Our team has delivered civil engineering for residential subdivisions ranging "
-     "from small infill lots to large master-planned communities, covering DA support, "
-     "detailed design, stormwater and servicing through to construction certification."),
-    ("commercial", "Commercial & Industrial",
-     "We provide civil engineering for commercial and industrial developments, including "
-     "site grading, pavement design, stormwater quality and quantity management, and "
-     "coordination with service authorities for fast-tracked delivery."),
-    ("infrastructure", "Civil Infrastructure",
-     "Our experience spans roads, drainage networks and public infrastructure, delivered "
-     "to relevant authority standards with a focus on constructability and whole-of-life "
-     "value."),
-    ("stormwater", "Stormwater & Drainage",
-     "We specialise in stormwater management, from catchment modelling and water quality "
-     "treatment to detailed drainage design and authority approvals."),
+    (
+        "residential",
+        "Residential Subdivision",
+        "Our team has delivered civil engineering for residential subdivisions ranging "
+        "from small infill lots to large master-planned communities, covering DA support, "
+        "detailed design, stormwater and servicing through to construction certification.",
+    ),
+    (
+        "commercial",
+        "Commercial & Industrial",
+        "We provide civil engineering for commercial and industrial developments, including "
+        "site grading, pavement design, stormwater quality and quantity management, and "
+        "coordination with service authorities for fast-tracked delivery.",
+    ),
+    (
+        "infrastructure",
+        "Civil Infrastructure",
+        "Our experience spans roads, drainage networks and public infrastructure, delivered "
+        "to relevant authority standards with a focus on constructability and whole-of-life "
+        "value.",
+    ),
+    (
+        "stormwater",
+        "Stormwater & Drainage",
+        "We specialise in stormwater management, from catchment modelling and water quality "
+        "treatment to detailed drainage design and authority approvals.",
+    ),
 ]
 
 for key, title, body in capability_blocks:
@@ -311,7 +340,10 @@ fee_tbl = doc.add_table(rows=1, cols=2)
 fee_tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
 fee_tbl.style = "Table Grid"
 hdr_cells = fee_tbl.rows[0].cells
-for c, txt, w in [(hdr_cells[0], "Service Component", Cm(12)), (hdr_cells[1], "Fee (AUD, ex GST)", Cm(4.5))]:
+for c, txt, w in [
+    (hdr_cells[0], "Service Component", Cm(12)),
+    (hdr_cells[1], "Fee (AUD, ex GST)", Cm(4.5)),
+]:
     set_cell_bg(c, "1F3355")
     cp = c.paragraphs[0]
     rr = cp.add_run(txt)
@@ -345,8 +377,10 @@ para("", after=4)
 # --- optional hourly-rate table (whole block removed when show_hourly is false) ---
 tag("{%p if show_hourly %}")
 para("Hourly Rates", bold=True, color=ACCENT, after=2)
-para("Where additional services are requested beyond the scope above, they will be "
-     "charged at the following hourly rates:")
+para(
+    "Where additional services are requested beyond the scope above, they will be "
+    "charged at the following hourly rates:"
+)
 
 hr_tbl = doc.add_table(rows=1, cols=2)
 hr_tbl.style = "Table Grid"
@@ -393,17 +427,23 @@ tag("{%p endfor %}")
 # =====================================================================
 para("Standard Terms & Conditions", style="H2")
 tp = para()
-tp.add_run("This proposal is subject to our standard terms and conditions, available here: ")
-add_hyperlink(tp, "https://conceptengineers.com.au/terms", "Standard Terms & Conditions")
+tp.add_run(
+    "This proposal is subject to our standard terms and conditions, available here: "
+)
+add_hyperlink(
+    tp, "https://conceptengineers.com.au/terms", "Standard Terms & Conditions"
+)
 tp.add_run(". By accepting this proposal you agree to those terms.")
 
 # =====================================================================
 # 8. ACCEPTANCE
 # =====================================================================
 para("Acceptance", style="H2")
-para("We look forward to working with you on this project. To proceed, please sign "
-     "below or confirm your acceptance via the secure signing link provided in the "
-     "accompanying email.")
+para(
+    "We look forward to working with you on this project. To proceed, please sign "
+    "below or confirm your acceptance via the secure signing link provided in the "
+    "accompanying email."
+)
 para("")
 para("Yours faithfully,", after=2)
 para("{{ sender_name }}", bold=True, after=0)
@@ -412,19 +452,29 @@ para("{{ firm_name }}", after=0)
 para("{{ sender_email }}  |  {{ sender_phone }}", after=10)
 
 # signature table
+para("Acceptance of Proposal", style="H2")
+para("Please review and sign below to accept this proposal.", after=10)
+
+# Signature table - 2 rows, 2 cols
 sig = doc.add_table(rows=2, cols=2)
 sig.style = "Table Grid"
-labels = [("Signed (Client)", "Name"), ("Position", "Date")]
-fields = [("signature", "name"), ("position", "date")]
-for r in range(2):
-    for c in range(2):
-        cell = sig.rows[r].cells[c]
-        lab = cell.paragraphs[0].add_run(labels[r][c] + ":")
-        lab.font.size = Pt(9)
-        lab.font.color.rgb = GREY
-        cell.add_paragraph().add_run(" ")
+
+# Row 0 - Signature | Name
+sig.rows[0].cells[0].paragraphs[0].add_run("Signature:").font.size = Pt(9)
+sig.rows[0].cells[0].add_paragraph().add_run("{{Signature}}")
+
+sig.rows[0].cells[1].paragraphs[0].add_run("Name:").font.size = Pt(9)
+sig.rows[0].cells[1].add_paragraph().add_run("{{Name}}")
+
+# Row 1 - Position | Date
+sig.rows[1].cells[0].paragraphs[0].add_run("Position:").font.size = Pt(9)
+sig.rows[1].cells[0].add_paragraph().add_run("{{Position}}")
+
+sig.rows[1].cells[1].paragraphs[0].add_run("Date:").font.size = Pt(9)
+sig.rows[1].cells[1].add_paragraph().add_run("{{Date}}")
 
 from pathlib import Path as _Path
+
 out = str(_Path(__file__).parent / "master_proposal_template.docx")
 doc.save(out)
 print("Saved:", out)

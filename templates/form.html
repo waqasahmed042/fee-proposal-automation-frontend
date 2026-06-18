@@ -4,8 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.docuseal.com/js/form.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <!-- DocuSeal embed widget -->
+  <script src="https://cdn.docuseal.com/js/form.js"></script>
   <title>Concept Engineers — Fee Proposal Generator</title>
   <style>
     *,
@@ -24,7 +27,6 @@
       min-height: 100vh;
     }
 
-    /* HEADER */
     header {
       background: #1f3355;
       color: white;
@@ -46,7 +48,6 @@
       margin-right: 8px;
     }
 
-    /* NAV TABS */
     .nav-tabs {
       display: flex;
       gap: 4px;
@@ -90,7 +91,6 @@
       color: rgba(255, 255, 255, 0.7);
     }
 
-    /* VIEWS */
     .view {
       display: none;
     }
@@ -101,8 +101,8 @@
 
     /* PROPOSAL FORM */
     .shell {
-      max-width: 860px;
-      margin: 32px auto;
+      max-width: auto;
+      margin: 32px 16px;
       padding: 0 16px 64px;
     }
 
@@ -185,7 +185,6 @@
       min-height: 80px;
     }
 
-    /* scope checkboxes */
     .checks {
       display: flex;
       flex-wrap: wrap;
@@ -229,7 +228,6 @@
       display: flex;
     }
 
-    /* fee table */
     .row-table {
       width: 100%;
       border-collapse: collapse;
@@ -305,7 +303,6 @@
       flex: 1;
     }
 
-    /* submit bar */
     .submit-bar {
       display: flex;
       align-items: center;
@@ -366,7 +363,6 @@
       }
     }
 
-    /* capability */
     .cap-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -409,8 +405,8 @@
 
     /* TEMPLATES VIEW */
     .tpl-page {
-      max-width: 1100px;
-      margin: 0 auto;
+      max-width: auto;
+      margin: 32px 14px;
       padding: 28px 20px 60px;
     }
 
@@ -482,7 +478,6 @@
       background: #fef2f2;
     }
 
-    /* stats */
     .stats {
       display: flex;
       gap: 16px;
@@ -509,7 +504,6 @@
       margin-top: 2px;
     }
 
-    /* toolbar */
     .toolbar {
       display: flex;
       gap: 12px;
@@ -543,7 +537,6 @@
       color: #718096;
     }
 
-    /* template cards */
     .templates-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -555,7 +548,7 @@
       border: 1px solid #e2e8f0;
       border-radius: 10px;
       overflow: hidden;
-      transition: box-shadow 0.15s, border-color 0.15s;
+      transition: box-shadow 0.15s, border-color 0.15s, opacity 0.3s, transform 0.3s;
       display: flex;
       flex-direction: column;
     }
@@ -632,15 +625,16 @@
       gap: 8px;
       align-items: center;
       background: #fafbfc;
+      flex-wrap: wrap;
     }
 
     .tc-date {
       font-size: 11px;
       color: #718096;
       flex: 1;
+      min-width: 80px;
     }
 
-    /* skeleton */
     .skeleton {
       background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
       background-size: 200% 100%;
@@ -682,7 +676,6 @@
       width: 90%;
     }
 
-    /* empty state */
     .empty-state {
       text-align: center;
       padding: 60px 20px;
@@ -702,23 +695,53 @@
       margin-bottom: 6px;
     }
 
-    /* signing banner */
-    .signing-banner {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: white;
-      border: 2px solid #10b981;
-      border-radius: 12px;
-      padding: 18px 24px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-      z-index: 9999;
-      max-width: 480px;
-      width: 90%;
+    /* PAGINATION */
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 28px;
+      padding-bottom: 40px;
     }
 
-    /* delete modal */
+    .pg-btn {
+      padding: 7px 13px;
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1.5px solid #e2e8f0;
+      background: white;
+      color: #1f3355;
+      transition: all 0.15s;
+      min-width: 36px;
+    }
+
+    .pg-btn:hover:not(:disabled) {
+      border-color: #2e75b6;
+      color: #2e75b6;
+      background: #eef4fb;
+    }
+
+    .pg-btn.active {
+      background: #1f3355;
+      color: white;
+      border-color: #1f3355;
+    }
+
+    .pg-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .pg-info {
+      font-size: 12px;
+      color: #718096;
+      margin: 0 6px;
+    }
+
+    /* MODALS */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -757,6 +780,72 @@
       display: flex;
       gap: 10px;
       justify-content: flex-end;
+    }
+
+    /* SIGN MODAL */
+    .sign-modal-inner {
+      width: 720px;
+      max-width: 95vw;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .sign-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 24px;
+      border-bottom: 1px solid #e2e8f0;
+      background: #f7f9fc;
+      border-radius: 12px 12px 0 0;
+      flex-shrink: 0;
+    }
+
+    .sign-modal-header h3 {
+      margin: 0;
+      font-size: 16px;
+      color: #1f3355;
+    }
+
+    .sign-modal-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0;
+      min-height: 500px;
+    }
+
+    /* DocuSeal form widget overrides */
+    docuseal-form {
+      display: block;
+      min-height: 500px;
+    }
+
+    /* Delete loading state */
+    .card-deleting {
+      opacity: 0.55 !important;
+      pointer-events: none !important;
+    }
+
+    .del-loading {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #718096;
+      flex: 1;
+    }
+
+    .del-spin {
+      width: 13px;
+      height: 13px;
+      border: 2px solid #fecaca;
+      border-top-color: #ef4444;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      flex-shrink: 0;
     }
 
     @media (max-width: 580px) {
@@ -809,6 +898,13 @@
   <!-- VIEW 1: NEW PROPOSAL FORM -->
   <div class="view active" id="view-proposal">
     <div class="shell">
+      <div class="tpl-header">
+        <div>
+          <h2>New Proposal</h2>
+          <p>Generate and send a fee proposal via DocuSeal for client signing.</p>
+        </div>
+      </div>
+
       <form id="proposalForm" action="/generate" method="POST">
 
         <!-- 1. DOCUMENT -->
@@ -1009,7 +1105,7 @@
         <!-- SUBMIT BAR -->
         <div class="submit-bar">
           <button type="button" class="btn-submit" id="btnGenerate" onclick="handleGenerate()">
-            Generate Proposal
+            Generate &amp; Send Proposal
           </button>
           <select name="output_fmt" id="output_fmt" style="cursor:pointer; height:40px;">
             <option value="docx">Download as DOCX</option>
@@ -1035,12 +1131,11 @@
           <p>All uploaded proposal templates from DocuSeal.</p>
         </div>
         <div style="display:flex;gap:10px;">
-          <button class="btn btn-outline" onclick="loadTemplates()">🔄 Refresh</button>
+          <button class="btn btn-outline" onclick="loadTemplates()">Refresh</button>
           <button class="btn btn-primary" onclick="switchTab('proposal')">+ New Proposal</button>
         </div>
       </div>
 
-      <!-- Stats -->
       <div class="stats">
         <div class="stat-card">
           <div class="num" id="statTotal">—</div>
@@ -1056,7 +1151,6 @@
         </div>
       </div>
 
-      <!-- Search -->
       <div class="toolbar">
         <div class="search-box">
           <span class="search-icon">🔍</span>
@@ -1064,7 +1158,6 @@
         </div>
       </div>
 
-      <!-- Grid -->
       <div class="templates-grid" id="templatesGrid">
         <div class="sk-card">
           <div class="skeleton sk-line sk-short"></div>
@@ -1083,11 +1176,30 @@
         </div>
       </div>
 
+      <div class="pagination" id="pagination"></div>
+
     </div>
-  </div><!-- /view-templates -->
+  </div>
 
+  <!-- ═══════════════════════════════════════════════
+       SIGN MODAL — DocuSeal embedded signing form
+  ════════════════════════════════════════════════ -->
+  <div class="modal-backdrop" id="signModal" onclick="handleSignModalBackdrop(event)">
+    <div class="modal sign-modal-inner">
+      <div class="sign-modal-header">
+        <div>
+          <h3>✍️ Sign Proposal</h3>
+          <p style="margin:2px 0 0;font-size:12px;color:#718096;" id="signModalSubtitle"></p>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="closeSignModal()">✕ Close</button>
+      </div>
+      <div class="sign-modal-body" id="signFormContainer">
+        <!-- DocuSeal <docuseal-form> element injected here by openSignModal() -->
+      </div>
+    </div>
+  </div>
 
-  <!-- Delete modal -->
+  <!-- DELETE MODAL -->
   <div class="modal-backdrop" id="deleteModal">
     <div class="modal">
       <h3>Delete Template?</h3>
@@ -1099,9 +1211,8 @@
     </div>
   </div>
 
-
   <script>
-    // TAB SWITCHING
+    // ── TAB SWITCHING ──────────────────────────────────────────────────────────
     function switchTab(tab) {
       document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
       document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
@@ -1111,10 +1222,9 @@
       window.scrollTo(0, 0);
     }
 
-    // SET TODAY'S DATE
     document.getElementById('proposalDate').valueAsDate = new Date();
 
-    // TOAST
+    // ── TOAST ──────────────────────────────────────────────────────────────────
     function showToast(message, type = "success") {
       Toastify({
         text: message,
@@ -1130,60 +1240,139 @@
         },
         stopOnFocus: true,
       }).showToast();
-    };
+    }
 
-    const fmtDateTime = (date) =>
-      new Date(date).toLocaleString("en-GB", {
-        day: "2-digit",
-        month: "short",
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true,
+    const fmtDateTime = (d) =>
+      new Date(d).toLocaleString("en-GB", {
+        day: "2-digit", month: "short",
+        hour: "2-digit", minute: "2-digit", hour12: true,
       });
 
-    // FORM HELPERS
+    // ── FORM HELPERS ───────────────────────────────────────────────────────────
     function toggleUW() {
       document.getElementById('uw-level-row').classList.toggle('visible', document.getElementById('cb_uw').checked);
-    };
+    }
 
     function capChange() {
       const val = document.querySelector('[name=capability_profile]:checked')?.value;
       document.getElementById('custom-cap').classList.toggle('visible', val === 'custom');
-    };
+    }
 
     function addFeeRow() {
       const tr = document.createElement('tr');
       tr.innerHTML = `<td><input type="text" name="fee_desc[]" placeholder="Service description"></td>
-    <td class="amount-cell"><input type="text" name="fee_amount[]" placeholder="0.00"></td>
-    <td><button type="button" class="btn-del" onclick="delRow(this)">×</button></td>`;
+        <td class="amount-cell"><input type="text" name="fee_amount[]" placeholder="0.00"></td>
+        <td><button type="button" class="btn-del" onclick="delRow(this)">×</button></td>`;
       document.getElementById('fee-rows').appendChild(tr);
       tr.querySelector('input').focus();
-    };
+    }
 
     function addHrRow() {
       const tr = document.createElement('tr');
       tr.innerHTML = `<td><input type="text" name="hourly_role[]" placeholder="Senior Engineer"></td>
-    <td class="amount-cell"><input type="text" name="hourly_rate[]" placeholder="185.00"></td>
-    <td><button type="button" class="btn-del" onclick="delRow(this)">×</button></td>`;
+        <td class="amount-cell"><input type="text" name="hourly_rate[]" placeholder="185.00"></td>
+        <td><button type="button" class="btn-del" onclick="delRow(this)">×</button></td>`;
       document.getElementById('hr-rows').appendChild(tr);
       tr.querySelector('input').focus();
-    };
+    }
 
     function addListItem(listId, fieldName, placeholder) {
       const div = document.createElement('div');
       div.className = 'list-item';
       div.innerHTML = `<input type="text" name="${fieldName}" placeholder="${placeholder}">
-    <button type="button" class="btn-del" onclick="delRow(this)">×</button>`;
+        <button type="button" class="btn-del" onclick="delRow(this)">×</button>`;
       document.getElementById(listId).appendChild(div);
       div.querySelector('input').focus();
-    };
+    }
 
     function delRow(btn) {
       const row = btn.closest('tr') || btn.closest('.list-item');
       if (row) row.remove();
-    };
+    }
 
-    // PROPOSAL GENERATION + DOCUSEAL FLOW
+    // ── DOCUSEAL SIGN MODAL ────────────────────────────────────────────────────
+    // Opens the DocuSeal embedded signing widget inside a modal.
+    // slug     → submitter slug  (from /submissions response, format: /s/{slug})
+    //            OR template slug (from template object, format: /d/{slug})
+    // email    → pre-fills the signer email field
+    // name     → pre-fills the signer name
+    // isSubmitter → true  = /s/{slug} (individual signer URL, no email prompt)
+    //               false = /d/{slug} (template form URL, shows email step)
+
+    function openSignModal(slug, email, name, isSubmitter = true) {
+      const container = document.getElementById('signFormContainer');
+      const subtitle = document.getElementById('signModalSubtitle');
+      const modal = document.getElementById('signModal');
+
+      // Clear any previous widget
+      container.innerHTML = '';
+
+      // Update subtitle
+      subtitle.textContent = email
+        ? `Signing as ${name || ''} <${email}>`
+        : 'Fill in your details to sign the proposal';
+
+      // Build the URL: /s/{slug} for submitter, /d/{slug} for template preview
+      const src = isSubmitter
+        ? `https://docuseal.com/s/${slug}`
+        : `https://docuseal.com/d/${slug}`;
+
+      // Create the docuseal-form custom element
+      const form = document.createElement('docuseal-form');
+      form.setAttribute('data-src', src);
+      form.setAttribute('data-expand', 'true');
+      form.setAttribute('data-with-title', 'true');
+      form.setAttribute('data-go-to-last', 'true');
+      form.setAttribute('data-with-field-names', 'false');
+      form.setAttribute('data-order-as-on-page', 'true');
+      form.setAttribute('data-autoscroll-fields', 'true');
+      form.setAttribute('data-with-download-button', 'true');
+      form.setAttribute('data-background-color', '#ffffff');
+      form.setAttribute('data-custom-css',
+        '#submit_form_button { background-color: #1f3355 !important; border-color: #1f3355 !important; }' +
+        '#submit_form_button:hover { background-color: #2e75b6 !important; }'
+      );
+
+      // Pre-fill email and name only when using submitter URL
+      if (isSubmitter && email) form.setAttribute('data-email', email);
+      if (isSubmitter && name) form.setAttribute('data-name', name);
+
+      // Completion callback
+      form.addEventListener('completed', (e) => {
+        showToast('✅ Proposal signed successfully!', 'success');
+        closeSignModal();
+        // Reload templates view if open to reflect updated field count
+        if (document.getElementById('view-templates').classList.contains('active')) {
+          loadTemplates();
+        }
+        console.log('[DocuSeal] signing completed:', e.detail);
+      });
+
+      // Decline callback
+      form.addEventListener('declined', () => {
+        showToast('Proposal was declined by the signer.', 'error');
+        closeSignModal();
+      });
+
+      container.appendChild(form);
+      modal.classList.add('open');
+    }
+
+    function closeSignModal() {
+      document.getElementById('signModal').classList.remove('open');
+      // Destroy the widget so it doesn't keep running in the background
+      document.getElementById('signFormContainer').innerHTML = '';
+      document.getElementById('signModalSubtitle').textContent = '';
+    }
+
+    // Close sign modal if user clicks the dark backdrop (not the inner modal)
+    function handleSignModalBackdrop(e) {
+      if (e.target === document.getElementById('signModal')) {
+        closeSignModal();
+      }
+    }
+
+    // ── PROPOSAL GENERATION + DOCUSEAL FLOW ───────────────────────────────────
     async function handleGenerate() {
       const form = document.getElementById('proposalForm');
       const spinner = document.getElementById('spinner');
@@ -1202,35 +1391,52 @@
       spinner.classList.add('show');
 
       try {
-        // STEP 1 — Generate DOCX as base64
-        spinnerMsg.textContent = "Step 1/3 - Generating document…";
+        // ── STEP 1: Generate DOCX as base64 ───────────────────────────────────
+        spinnerMsg.textContent = "Step 1/4 — Generating document…";
         const formData = new FormData(form);
         const genRes = await fetch('/generate?base64=true', { method: 'POST', body: formData });
         const genData = await genRes.json();
-        if (!genData.success) throw new Error("Document generation failed");
+        if (!genData.success) throw new Error(genData.error || "Document generation failed");
 
-        // STEP 2 — Upload to DocuSeal
-        spinnerMsg.textContent = "Step 2/3 - Uploading to DocuSeal…";
+        // ── STEP 2: Upload DOCX to DocuSeal ───────────────────────────────────
+        spinnerMsg.textContent = "Step 2/4 — Uploading to DocuSeal…";
         const ref = formData.get('proposal_ref') || 'CE';
         const docType = formData.get('document_type') || 'Proposal';
         const templateName = `${docType} - ${contactName} - ${ref}`;
 
         const uploadRes = await fetch('/api/upload-template', {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ documentBase64: genData.documentBase64, templateName }),
         });
         const uploadData = await uploadRes.json();
         if (!uploadData.success) throw new Error(uploadData.error || "Upload failed");
 
-        // STEP 3 — Confirm template
+        // ── STEP 2b: Inject interactive signature fields ─────────────────────
+        spinnerMsg.textContent = "Step 2b/4 — Adding signature fields…";
+        const sigRes = await fetch(`/api/add-signature-fields/${uploadData.templateId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            attachmentUuid: uploadData.attachmentUuid,
+            pageCount: uploadData.pageCount,
+          }),
+        });
+        const sigData = await sigRes.json();
+        // Make this FATAL — don't proceed if fields weren't injected
+        if (!sigData.success) throw new Error(sigData.error || "Signature field injection failed");
+
+        // ── STEP 3: Confirm template role ──────────────────────────────────────
+        spinnerMsg.textContent = "Step 3/4 — Confirming template…";
         const getRes = await fetch(`/api/get-template/${uploadData.templateId}`);
         const getData = await getRes.json();
         if (!getData.success) throw new Error("Template confirmation failed");
 
-        // STEP 4 — Send to client
-        spinnerMsg.textContent = "Step 3/3 - Sending to client…";
+        // ── STEP 4: Send submission → get per-signer slug ──────────────────────
+        spinnerMsg.textContent = "Step 4/4 — Sending to client…";
         const sendRes = await fetch('/api/send-proposal', {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             templateId: uploadData.templateId,
             client_name: contactName,
@@ -1243,49 +1449,28 @@
 
         showToast(`✅ Proposal sent to ${contactEmail}`, "success");
 
-        // Show signing banner
-        if (sendData.signingUrl) {
-          const old = document.getElementById('signing-banner');
-          if (old) old.remove();
-          const banner = document.createElement('div');
-          banner.id = 'signing-banner';
-          banner.className = 'signing-banner';
-          banner.innerHTML = `
-        <div style="font-weight:700;color:#1f3355;margin-bottom:6px;font-size:15px;">✅ Proposal Sent!</div>
-        <div style="font-size:13px;color:#4a5568;margin-bottom:12px;">
-          Signing email sent to <strong>${contactEmail}</strong>. Share this link directly if needed:
-        </div>
-        <a href="${sendData.signingUrl}" target="_blank"
-           style="display:block;background:#1f3355;color:white;text-align:center;
-                  padding:11px 16px;border-radius:8px;text-decoration:none;
-                  font-weight:600;font-size:13px;margin-bottom:10px;">
-          🔗 Open Client Signing Page
-        </a>
-        <div style="font-size:11px;color:#718096;word-break:break-all;margin-bottom:8px;">${sendData.signingUrl}</div>
-        <div style="display:flex;gap:8px;">
-          <button onclick="navigator.clipboard.writeText('${sendData.signingUrl}').then(()=>showToast('Copied!','success'))"
-                  style="flex:1;padding:7px;border:1.5px solid #1f3355;border-radius:6px;
-                         background:transparent;color:#1f3355;font-size:12px;font-weight:600;cursor:pointer;">
-            📋 Copy Link
-          </button>
-          <button onclick="document.getElementById('signing-banner').remove()"
-                  style="flex:1;padding:7px;border:1.5px solid #e2e8f0;border-radius:6px;
-                         background:transparent;color:#718096;font-size:12px;cursor:pointer;">
-            ✕ Close
-          </button>
-        </div>`;
-          document.body.appendChild(banner);
-        }
-
-        // Auto-download document
+        // ── Auto-download DOCX/PDF ─────────────────────────────────────────────
         const fmt = document.getElementById('output_fmt')?.value || 'docx';
         const ext = fmt === 'pdf' ? '.pdf' : '.docx';
-        const mime = fmt === 'pdf' ? 'application/pdf'
+        const mime = fmt === 'pdf'
+          ? 'application/pdf'
           : 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
         const a = document.createElement('a');
         a.href = `data:${mime};base64,${genData.documentBase64}`;
         a.download = `${ref}${ext}`;
         a.click();
+
+        // ── Open DocuSeal signing form embedded in modal ───────────────────────
+        // sendData.signingUrl = "https://docuseal.com/s/{submitterSlug}"
+        if (sendData.signingUrl) {
+          const submitterSlug = sendData.signingUrl.split('/s/')[1];
+          if (submitterSlug) {
+            // Small delay so the download doesn't fight with modal open
+            setTimeout(() => {
+              openSignModal(submitterSlug, contactEmail, contactName, true);
+            }, 600);
+          }
+        }
 
       } catch (err) {
         console.error(err);
@@ -1295,40 +1480,30 @@
         spinner.classList.remove('show');
         spinnerMsg.textContent = "Processing…";
       }
-    };
+    }
 
-    // TEMPLATES
+    // ── TEMPLATES — PAGINATION STATE ──────────────────────────────────────────
+    const PAGE_SIZE = 12;
     let allTemplates = [];
+    let filteredTemplates = [];
+    let currentPage = 1;
     let deleteTargetId = null;
 
-    function fmtDate(str) {
-      if (!str) return "—";
-      return new Date(str).toLocaleDateString("en-AU", { day: "numeric", month: "short", year: "numeric" });
-    };
-
-    function isToday(str) {
-      if (!str) return false;
-      return new Date(str).toDateString() === new Date().toDateString();
-    };
-
-    function isThisWeek(str) {
-      if (!str) return false;
-      return (new Date() - new Date(str)) / 86400000 <= 7;
-    };
+    function isToday(str) { return str && new Date(str).toDateString() === new Date().toDateString(); }
+    function isThisWeek(str) { return str && (new Date() - new Date(str)) / 86400000 <= 7; }
 
     function escHtml(s) {
-      return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-    };
+      return String(s)
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
 
+    // ── LOAD ALL TEMPLATES ─────────────────────────────────────────────────────
     async function loadTemplates() {
       const grid = document.getElementById('templatesGrid');
-      grid.innerHTML = `
-    <div class="sk-card"><div class="skeleton sk-line sk-short"></div><div class="skeleton sk-line sk-long"></div><div class="skeleton sk-line sk-medium"></div></div>
-    <div class="sk-card"><div class="skeleton sk-line sk-short"></div><div class="skeleton sk-line sk-long"></div><div class="skeleton sk-line sk-medium"></div></div>
-    <div class="sk-card"><div class="skeleton sk-line sk-short"></div><div class="skeleton sk-line sk-long"></div><div class="skeleton sk-line sk-medium"></div></div>
-    <div class="sk-card"><div class="skeleton sk-line sk-short"></div><div class="skeleton sk-line sk-long"></div><div class="skeleton sk-line sk-medium"></div></div>
-    <div class="sk-card"><div class="skeleton sk-line sk-short"></div><div class="skeleton sk-line sk-long"></div><div class="skeleton sk-line sk-medium"></div></div>
-    <div class="sk-card"><div class="skeleton sk-line sk-short"></div><div class="skeleton sk-line sk-long"></div><div class="skeleton sk-line sk-medium"></div></div>`;
+      const skCard = `<div class="sk-card"><div class="skeleton sk-line sk-short"></div><div class="skeleton sk-line sk-long"></div><div class="skeleton sk-line sk-medium"></div></div>`;
+      grid.innerHTML = skCard.repeat(6);
+      document.getElementById('pagination').innerHTML = '';
 
       try {
         const resp = await fetch('/api/all-templates');
@@ -1336,106 +1511,216 @@
         if (!resp.ok || data.error) throw new Error(data.error || "Failed to load");
 
         allTemplates = data.templates || [];
+        filteredTemplates = [...allTemplates];
+        currentPage = 1;
 
-        // Update stats
         document.getElementById('statTotal').textContent = allTemplates.length;
         document.getElementById('statToday').textContent = allTemplates.filter(t => isToday(t.created_at)).length;
         document.getElementById('statWeek').textContent = allTemplates.filter(t => isThisWeek(t.created_at)).length;
 
-        // Update tab badge
         const badge = document.getElementById('tplCount');
         badge.textContent = allTemplates.length;
         badge.style.display = allTemplates.length ? 'inline' : 'none';
 
-        renderTemplates(allTemplates);
+        renderPage();
+
       } catch (err) {
         grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
-      <div class="icon">⚠️</div>
-      <h3>Failed to load templates</h3>
-      <p>${err.message}</p>
-      <button class="btn btn-primary" style="margin-top:16px;" onclick="loadTemplates()">Try Again</button>
-    </div>`;
+          <div class="icon">⚠️</div>
+          <h3>Failed to load templates</h3>
+          <p>${err.message}</p>
+          <button class="btn btn-primary" style="margin-top:16px;" onclick="loadTemplates()">Try Again</button>
+        </div>`;
         showToast(err.message, "error");
       }
-    };
+    }
 
+    // ── RENDER CURRENT PAGE ────────────────────────────────────────────────────
+    function renderPage() {
+      const total = filteredTemplates.length;
+      const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+      currentPage = Math.min(currentPage, totalPages);
+
+      const start = (currentPage - 1) * PAGE_SIZE;
+      const slice = filteredTemplates.slice(start, start + PAGE_SIZE);
+
+      renderTemplates(slice);
+      renderPagination(totalPages, total);
+    }
+
+    // ── RENDER PAGINATION BAR ──────────────────────────────────────────────────
+    function renderPagination(totalPages, total) {
+      const pg = document.getElementById('pagination');
+      const start = (currentPage - 1) * PAGE_SIZE + 1;
+      const end = Math.min(currentPage * PAGE_SIZE, total);
+
+      if (total === 0) { pg.innerHTML = ''; return; }
+
+      // Build page numbers with ellipsis
+      const pages = [];
+      for (let i = 1; i <= totalPages; i++) {
+        if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
+          pages.push(i);
+        }
+      }
+
+      const btns = [];
+      let prev = null;
+      for (const p of pages) {
+        if (prev !== null && p - prev > 1) btns.push('…');
+        btns.push(p);
+        prev = p;
+      }
+
+      pg.innerHTML = `
+        <button class="pg-btn" onclick="goPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>‹ Prev</button>
+        ${btns.map(b => b === '…'
+        ? `<span class="pg-info">…</span>`
+        : `<button class="pg-btn ${b === currentPage ? 'active' : ''}" onclick="goPage(${b})">${b}</button>`
+      ).join('')}
+        <button class="pg-btn" onclick="goPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>Next ›</button>
+        <span class="pg-info">${start}–${end} of ${total}</span>`;
+    }
+
+    function goPage(p) {
+      const totalPages = Math.ceil(filteredTemplates.length / PAGE_SIZE);
+      if (p < 1 || p > totalPages) return;
+      currentPage = p;
+      renderPage();
+      document.getElementById('templatesGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // ── SEARCH FILTER ──────────────────────────────────────────────────────────
+    function filterTemplates() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      filteredTemplates = q
+        ? allTemplates.filter(t => (t.name || "").toLowerCase().includes(q) || String(t.id).includes(q))
+        : [...allTemplates];
+      currentPage = 1;
+      renderPage();
+    }
+
+    // ── RENDER TEMPLATE CARDS ──────────────────────────────────────────────────
     function renderTemplates(templates) {
       const grid = document.getElementById('templatesGrid');
+
       if (!templates.length) {
         grid.innerHTML = `<div class="empty-state">
-      <div class="icon">📄</div>
-      <h3>No templates found</h3>
-      <p>Generate a proposal to create your first template.</p>
-      <button class="btn btn-primary" style="margin-top:16px;" onclick="switchTab('proposal')">+ New Proposal</button>
-    </div>`;
+          <div class="icon">📄</div>
+          <h3>No templates found</h3>
+          <p>Generate a proposal to create your first template.</p>
+          <button class="btn btn-primary" style="margin-top:16px;" onclick="switchTab('proposal')">+ New Proposal</button>
+        </div>`;
         return;
-      };
+      }
 
       grid.innerHTML = templates.map(t => {
         const docCount = (t.documents || []).length;
         const fieldCount = (t.fields || []).length;
         const name = t.name || "Untitled Template";
+        const tplSlug = t.slug || null;   // template-level slug for preview
         const icon = name.toLowerCase().includes("proposal") ? "📋"
           : name.toLowerCase().includes("variation") ? "🔄"
             : name.toLowerCase().includes("agreement") ? "🤝" : "📄";
+
         return `
-      <div class="template-card" id="tc-${t.id}">
-        <div class="tc-head">
-          <div class="tc-icon">${icon}</div>
-          <div class="tc-name">${escHtml(name)}</div>
-          <div class="tc-id">ID: ${t.id}</div>
-          <div class="tc-id">Name: ${t.author.first_name} ${t.author.last_name}</div>
-          <div class="tc-meta">
-            <span class="badge badge-blue">📄 ${docCount} doc${docCount !== 1 ? "s" : ""}</span>
-            ${fieldCount ? `<span class="badge badge-green">✏️ ${fieldCount} fields</span>` : ""}
-          </div>
-        </div>
-        <div class="tc-footer">
-          <span class="tc-date">Created ${fmtDateTime(t.created_at)}</span>
-          <a href="https://docuseal.com/templates/${t.id}/edit" target="_blank"
-             class="btn btn-outline btn-sm">✏️ Edit</a>
-          <button class="btn btn-danger btn-sm"
-                  onclick="askDelete(${t.id}, '${escHtml(name).replace(/'/g, "\\'")}')">🗑 Delete</button>
-        </div>
-      </div>`;
+          <div class="template-card" id="tc-${t.id}">
+            <div class="tc-head">
+              <div class="tc-icon">${icon}</div>
+              <div class="tc-name">${escHtml(name)}</div>
+              <div class="tc-id">ID: ${t.id}</div>
+              <div class="tc-id">By: ${escHtml((t.author?.first_name ?? '') + ' ' + (t.author?.last_name ?? '')).trim()}</div>
+              <div class="tc-meta">
+                <span class="badge badge-blue">📄 ${docCount} doc${docCount !== 1 ? "s" : ""}</span>
+                ${fieldCount
+            ? `<span class="badge badge-green">✏️ ${fieldCount} field${fieldCount !== 1 ? "s" : ""}</span>`
+            : `<span class="badge badge-grey">No fields</span>`}
+              </div>
+            </div>
+            <div class="tc-footer" id="tcf-${t.id}">
+              <span class="tc-date">Created ${fmtDateTime(t.created_at)}</span>
+              ${tplSlug
+            ? `<button class="btn btn-outline btn-sm"
+                     onclick="openSignModal('${escHtml(tplSlug)}', '', '', false)"
+                     title="Preview signing form">
+                     👁 Preview
+                   </button>`
+            : ''}
+              <a href="https://docuseal.com/templates/${t.id}/edit" target="_blank"
+                 class="btn btn-outline btn-sm">✏️ Edit</a>
+              <button class="btn btn-danger btn-sm"
+                      onclick="askDelete(${t.id}, '${escHtml(name).replace(/'/g, "\\'")}')">
+                🗑 Delete
+              </button>
+            </div>
+          </div>`;
       }).join("");
-    };
+    }
 
-    function filterTemplates() {
-      const q = document.getElementById('searchInput').value.toLowerCase();
-      renderTemplates(q ? allTemplates.filter(t =>
-        (t.name || "").toLowerCase().includes(q) || String(t.id).includes(q)
-      ) : allTemplates);
-    };
-
+    // ── DELETE FLOW ────────────────────────────────────────────────────────────
     function askDelete(id, name) {
       deleteTargetId = id;
-      document.getElementById('deleteModalMsg').textContent = `Delete "${name}" (ID: ${id})? This cannot be undone.`;
+      document.getElementById('deleteModalMsg').textContent =
+        `Delete "${name}" (ID: ${id})? This cannot be undone.`;
       document.getElementById('deleteModal').classList.add('open');
-    };
+    }
 
     function closeDeleteModal() {
       document.getElementById('deleteModal').classList.remove('open');
       deleteTargetId = null;
-    };
+    }
 
     async function confirmDelete() {
       if (!deleteTargetId) return;
       const id = deleteTargetId;
       closeDeleteModal();
+
+      // ── Show loading state on card ─────────────────────────────────────────
+      const card = document.getElementById(`tc-${id}`);
+      const footer = document.getElementById(`tcf-${id}`);
+
+      if (card) card.classList.add('card-deleting');
+      if (footer) {
+        footer.innerHTML = `
+          <div class="del-loading">
+            <div class="del-spin"></div>
+            Deleting template…
+          </div>`;
+      }
+
       try {
         const resp = await fetch(`/api/delete-template/${id}`, { method: 'DELETE' });
         const data = await resp.json();
         if (!resp.ok || data.error) throw new Error(data.error || "Delete failed");
-        document.getElementById(`tc-${id}`)?.remove();
+
+        // ── Animate card out, then remove ─────────────────────────────────────
+        if (card) {
+          card.style.transform = 'scale(0.93)';
+          card.style.opacity = '0';
+          setTimeout(() => card.remove(), 320);
+        }
+
         allTemplates = allTemplates.filter(t => t.id !== id);
+        filteredTemplates = filteredTemplates.filter(t => t.id !== id);
+
         document.getElementById('statTotal').textContent = allTemplates.length;
         document.getElementById('tplCount').textContent = allTemplates.length;
+
+        // Re-render pagination (card already removed from DOM visually)
+        setTimeout(() => renderPage(), 350);
+
         showToast("Template deleted", "success");
+
       } catch (err) {
+        // Restore card on failure
+        if (card) card.classList.remove('card-deleting');
+        if (footer) {
+          // Re-render just this card's footer
+          renderPage();
+        }
         showToast(err.message, "error");
       }
-    };
+    }
   </script>
 </body>
 
