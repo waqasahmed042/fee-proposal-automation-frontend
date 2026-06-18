@@ -3,6 +3,10 @@ app.py — Concept Engineers Fee Proposal + DocuSeal Integration
 Run: python app.py  →  open http://localhost:5000
 """
 
+import utils.clients
+import utils.http_session
+import utils.transport
+import utils.session
 import os
 import tempfile
 import base64
