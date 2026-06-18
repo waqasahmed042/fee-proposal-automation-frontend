@@ -4,11 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.docuseal.com/js/form.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-  <!-- DocuSeal embed widget -->
-  <script src="https://cdn.docuseal.com/js/form.js"></script>
   <title>Concept Engineers — Fee Proposal Generator</title>
   <style>
     *,
@@ -45,38 +42,6 @@
       font-size: 18px;
       font-weight: 700;
       letter-spacing: -0.3px;
-      margin-right: 8px;
-    }
-
-    .nav-tabs {
-      display: flex;
-      gap: 4px;
-      margin-left: 8px;
-    }
-
-    .nav-tab {
-      padding: 8px 18px;
-      border-radius: 7px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      color: rgba(255, 255, 255, 0.65);
-      background: transparent;
-      transition: all 0.15s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .nav-tab:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-    }
-
-    .nav-tab.active {
-      background: rgba(255, 255, 255, 0.18);
-      color: white;
     }
 
     .spacer {
@@ -84,26 +49,34 @@
     }
 
     .header-badge {
-      font-size: 11px;
+      font-size: 10px;
       background: rgba(255, 255, 255, 0.12);
       padding: 4px 10px;
       border-radius: 20px;
       color: rgba(255, 255, 255, 0.7);
+      margin-top: 6px;
     }
 
-    .view {
-      display: none;
-    }
-
-    .view.active {
-      display: block;
-    }
-
-    /* PROPOSAL FORM */
     .shell {
-      max-width: auto;
-      margin: 32px 16px;
+      max-width: 1000px;
+      margin: 32px auto;
       padding: 0 16px 64px;
+    }
+
+    .page-intro {
+      margin-bottom: 20px;
+    }
+
+    .page-intro h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1f3355;
+    }
+
+    .page-intro p {
+      font-size: 13px;
+      color: #718096;
+      margin-top: 2px;
     }
 
     .card {
@@ -126,6 +99,12 @@
       display: flex;
       align-items: center;
       gap: 8px;
+    }
+
+    .card-head svg {
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
     }
 
     .card-body {
@@ -269,6 +248,15 @@
       cursor: pointer;
       width: 100%;
       transition: border-color .15s, color .15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-add svg {
+      width: 14px;
+      height: 14px;
     }
 
     .btn-add:hover {
@@ -281,11 +269,17 @@
       border: none;
       cursor: pointer;
       color: #e53e3e;
-      font-size: 18px;
-      line-height: 1;
       padding: 0 4px;
       opacity: .6;
       transition: opacity .15s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-del svg {
+      width: 16px;
+      height: 16px;
     }
 
     .btn-del:hover {
@@ -320,6 +314,14 @@
       font-weight: 600;
       cursor: pointer;
       transition: background .15s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-submit svg {
+      width: 16px;
+      height: 16px;
     }
 
     .btn-submit:hover {
@@ -403,449 +405,93 @@
       display: block;
     }
 
-    /* TEMPLATES VIEW */
-    .tpl-page {
-      max-width: auto;
-      margin: 32px 14px;
-      padding: 28px 20px 60px;
-    }
-
-    .tpl-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 24px;
-    }
-
-    .tpl-header h2 {
-      font-size: 22px;
-      font-weight: 700;
-      color: #1f3355;
-    }
-
-    .tpl-header p {
-      font-size: 13px;
-      color: #718096;
-      margin-top: 2px;
-    }
-
-    .btn {
-      padding: 9px 18px;
-      border-radius: 7px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      transition: all 0.15s;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .btn-primary {
-      background: #1f3355;
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background: #2e75b6;
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: #1f3355;
-      border: 1.5px solid #e2e8f0;
-    }
-
-    .btn-outline:hover {
-      border-color: #2e75b6;
-      color: #2e75b6;
-      background: #eef4fb;
-    }
-
-    .btn-sm {
-      padding: 6px 12px;
-      font-size: 12px;
-    }
-
-    .btn-danger {
-      background: transparent;
-      color: #ef4444;
-      border: 1.5px solid #fecaca;
-    }
-
-    .btn-danger:hover {
-      background: #fef2f2;
-    }
-
-    .stats {
-      display: flex;
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .stat-card {
+    /* Success banner — fixed bottom card with signing link */
+    .signing-banner {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
       background: white;
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
-      padding: 16px 20px;
-      flex: 1;
-    }
-
-    .stat-card .num {
-      font-size: 28px;
-      font-weight: 800;
-      color: #1f3355;
-    }
-
-    .stat-card .lbl {
-      font-size: 12px;
-      color: #718096;
-      margin-top: 2px;
-    }
-
-    .toolbar {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-
-    .search-box {
-      flex: 1;
-      position: relative;
-    }
-
-    .search-box input {
-      width: 100%;
-      padding: 9px 12px 9px 36px;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 8px;
-      font-size: 13px;
-      background: white;
-      outline: none;
-    }
-
-    .search-box input:focus {
-      border-color: #2e75b6;
-    }
-
-    .search-icon {
-      position: absolute;
-      left: 11px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #718096;
-    }
-
-    .templates-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 16px;
-    }
-
-    .template-card {
-      background: white;
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
-      overflow: hidden;
-      transition: box-shadow 0.15s, border-color 0.15s, opacity 0.3s, transform 0.3s;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .template-card:hover {
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-      border-color: #c3d9f0;
-    }
-
-    .tc-head {
-      padding: 16px 18px 12px;
-      flex: 1;
-    }
-
-    .tc-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      background: #eef4fb;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      margin-bottom: 10px;
-    }
-
-    .tc-name {
-      font-size: 15px;
-      font-weight: 700;
-      color: #1f3355;
-      line-height: 1.3;
-      margin-bottom: 4px;
-    }
-
-    .tc-id {
-      font-size: 11px;
-      color: #718096;
-      font-family: monospace;
-    }
-
-    .tc-meta {
-      display: flex;
-      gap: 8px;
-      margin-top: 10px;
-      flex-wrap: wrap;
-    }
-
-    .badge {
-      padding: 3px 8px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 600;
-    }
-
-    .badge-blue {
-      background: #eef4fb;
-      color: #2e75b6;
-    }
-
-    .badge-green {
-      background: #f0fdf4;
-      color: #16a34a;
-    }
-
-    .badge-grey {
-      background: #f1f5f9;
-      color: #718096;
-    }
-
-    .tc-footer {
-      padding: 12px 18px;
-      border-top: 1px solid #e2e8f0;
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      background: #fafbfc;
-      flex-wrap: wrap;
-    }
-
-    .tc-date {
-      font-size: 11px;
-      color: #718096;
-      flex: 1;
-      min-width: 80px;
-    }
-
-    .skeleton {
-      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-      background-size: 200% 100%;
-      animation: shimmer 1.2s infinite;
-      border-radius: 6px;
-    }
-
-    @keyframes shimmer {
-      0% {
-        background-position: 200% 0;
-      }
-
-      100% {
-        background-position: -200% 0;
-      }
-    }
-
-    .sk-card {
-      background: white;
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
-      padding: 18px;
-    }
-
-    .sk-line {
-      height: 14px;
-      margin-bottom: 10px;
-    }
-
-    .sk-short {
-      width: 40%;
-    }
-
-    .sk-medium {
-      width: 70%;
-    }
-
-    .sk-long {
+      border: 2px solid #10b981;
+      border-radius: 12px;
+      padding: 18px 24px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      z-index: 9999;
+      max-width: 480px;
       width: 90%;
     }
 
-    .empty-state {
-      text-align: center;
-      padding: 60px 20px;
-      color: #718096;
-      grid-column: 1/-1;
-    }
-
-    .empty-state .icon {
-      font-size: 48px;
-      margin-bottom: 12px;
-    }
-
-    .empty-state h3 {
-      font-size: 18px;
+    .banner-title {
+      display: flex;
+      align-items: center;
+      gap: 7px;
       font-weight: 700;
-      color: #1a202c;
+      color: #1f3355;
       margin-bottom: 6px;
+      font-size: 15px;
     }
 
-    /* PAGINATION */
-    .pagination {
+    .banner-title svg {
+      width: 18px;
+      height: 18px;
+      color: #10b981;
+      flex-shrink: 0;
+    }
+
+    .banner-link {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      margin-top: 28px;
-      padding-bottom: 40px;
-    }
-
-    .pg-btn {
-      padding: 7px 13px;
-      border-radius: 7px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      border: 1.5px solid #e2e8f0;
-      background: white;
-      color: #1f3355;
-      transition: all 0.15s;
-      min-width: 36px;
-    }
-
-    .pg-btn:hover:not(:disabled) {
-      border-color: #2e75b6;
-      color: #2e75b6;
-      background: #eef4fb;
-    }
-
-    .pg-btn.active {
+      gap: 7px;
       background: #1f3355;
       color: white;
-      border-color: #1f3355;
+      text-align: center;
+      padding: 11px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 13px;
+      margin-bottom: 10px;
     }
 
-    .pg-btn:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
+    .banner-link svg {
+      width: 15px;
+      height: 15px;
     }
 
-    .pg-info {
+    .banner-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .banner-actions button {
+      flex: 1;
+      padding: 7px;
+      border-radius: 6px;
       font-size: 12px;
-      color: #718096;
-      margin: 0 6px;
-    }
-
-    /* MODALS */
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.4);
-      z-index: 1000;
-      display: none;
+      cursor: pointer;
+      display: flex;
       align-items: center;
       justify-content: center;
+      gap: 5px;
     }
 
-    .modal-backdrop.open {
-      display: flex;
-    }
-
-    .modal {
-      background: white;
-      border-radius: 12px;
-      padding: 28px;
-      width: 400px;
-      max-width: 90vw;
-    }
-
-    .modal h3 {
-      font-size: 17px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .modal p {
-      font-size: 13px;
-      color: #718096;
-      margin-bottom: 20px;
-    }
-
-    .modal-actions {
-      display: flex;
-      gap: 10px;
-      justify-content: flex-end;
-    }
-
-    /* SIGN MODAL */
-    .sign-modal-inner {
-      width: 720px;
-      max-width: 95vw;
-      max-height: 90vh;
-      display: flex;
-      flex-direction: column;
-      padding: 0;
-      overflow: hidden;
-    }
-
-    .sign-modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 18px 24px;
-      border-bottom: 1px solid #e2e8f0;
-      background: #f7f9fc;
-      border-radius: 12px 12px 0 0;
-      flex-shrink: 0;
-    }
-
-    .sign-modal-header h3 {
-      margin: 0;
-      font-size: 16px;
-      color: #1f3355;
-    }
-
-    .sign-modal-body {
-      flex: 1;
-      overflow-y: auto;
-      padding: 0;
-      min-height: 500px;
-    }
-
-    /* DocuSeal form widget overrides */
-    docuseal-form {
-      display: block;
-      min-height: 500px;
-    }
-
-    /* Delete loading state */
-    .card-deleting {
-      opacity: 0.55 !important;
-      pointer-events: none !important;
-    }
-
-    .del-loading {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-      color: #718096;
-      flex: 1;
-    }
-
-    .del-spin {
+    .banner-actions button svg {
       width: 13px;
       height: 13px;
-      border: 2px solid #fecaca;
-      border-top-color: #ef4444;
-      border-radius: 50%;
-      animation: spin .7s linear infinite;
-      flex-shrink: 0;
+    }
+
+    .btn-copy-link {
+      border: 1.5px solid #1f3355;
+      background: transparent;
+      color: #1f3355;
+      font-weight: 600;
+    }
+
+    .btn-close-banner {
+      border: 1.5px solid #e2e8f0;
+      background: transparent;
+      color: #718096;
     }
 
     @media (max-width: 580px) {
@@ -861,16 +507,8 @@
         align-items: stretch;
       }
 
-      .stats {
-        flex-direction: column;
-      }
-
       header {
         padding: 0 16px;
-      }
-
-      .nav-tab span.label {
-        display: none;
       }
     }
   </style>
@@ -881,347 +519,335 @@
   <!-- HEADER -->
   <header>
     <h1>Concept Engineers</h1>
-    <div class="nav-tabs">
-      <button class="nav-tab active" id="tab-proposal" onclick="switchTab('proposal')">
-        <span class="label">New Proposal</span>
-      </button>
-      <button class="nav-tab" id="tab-templates" onclick="switchTab('templates')">
-        <span class="label">Templates</span>
-        <span id="tplCount"
-          style="background:rgba(255,255,255,0.2);padding:1px 7px;border-radius:20px;font-size:11px;display:none;"></span>
-      </button>
-    </div>
-    <div class="spacer"></div>
+    <!-- <div class="spacer"></div> -->
     <div class="header-badge">CE Proposal System</div>
   </header>
 
-  <!-- VIEW 1: NEW PROPOSAL FORM -->
-  <div class="view active" id="view-proposal">
-    <div class="shell">
-      <div class="tpl-header">
-        <div>
-          <h2>New Proposal</h2>
-          <p>Generate and send a fee proposal via DocuSeal for client signing.</p>
+  <!-- PROPOSAL FORM -->
+  <div class="shell">
+    <form id="proposalForm" action="/generate" method="POST">
+
+      <!-- 1. DOCUMENT -->
+      <div class="card">
+        <div class="card-head">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <line x1="10" y1="9" x2="8" y2="9"></line>
+          </svg>
+          Document
+        </div>
+        <div class="card-body">
+          <div class="grid3">
+            <div>
+              <label>Proposal Ref</label>
+              <input type="text" name="proposal_ref" placeholder="CE-2026-0412" required>
+            </div>
+            <div>
+              <label>Date</label>
+              <input type="date" name="proposal_date" id="proposalDate">
+            </div>
+            <div>
+              <label>Revision</label>
+              <input type="text" name="revision" value="Rev A">
+            </div>
+          </div>
         </div>
       </div>
 
-      <form id="proposalForm" action="/generate" method="POST">
-
-        <!-- 1. DOCUMENT -->
-        <div class="card">
-          <div class="card-head">📄 Document</div>
-          <div class="card-body">
-            <div class="grid3">
-              <div>
-                <label>Proposal Ref</label>
-                <input type="text" name="proposal_ref" placeholder="CE-2026-0412" required>
-              </div>
-              <div>
-                <label>Date</label>
-                <input type="date" name="proposal_date" id="proposalDate">
-              </div>
-              <div>
-                <label>Revision</label>
-                <input type="text" name="revision" value="Rev A">
-              </div>
-            </div>
-          </div>
+      <!-- 2. CLIENT -->
+      <div class="card">
+        <div class="card-head">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M3 21h18"></path>
+            <path d="M5 21V7l8-4v18"></path>
+            <path d="M19 21V11l-6-4"></path>
+            <path d="M9 9v.01"></path>
+            <path d="M9 12v.01"></path>
+            <path d="M9 15v.01"></path>
+            <path d="M9 18v.01"></path>
+          </svg>
+          Client &amp; Project
         </div>
-
-        <!-- 2. CLIENT -->
-        <div class="card">
-          <div class="card-head">🏢 Client &amp; Project</div>
-          <div class="card-body">
-            <div class="grid2" style="margin-bottom:14px">
-              <div>
-                <label>Contact Name <span style="color:#e53e3e">*</span></label>
-                <input type="text" name="contact_name" placeholder="David Lee" required>
-              </div>
-              <div>
-                <label>Company</label>
-                <input type="text" name="company_name" placeholder="Skyline Developments Pty Ltd">
-              </div>
-              <div>
-                <label>Contact Email <span style="color:#e53e3e">*</span></label>
-                <input type="email" name="contact_email" placeholder="david@skyline.com.au">
-              </div>
-              <div>
-                <label>Project / Site Address <span style="color:#e53e3e">*</span></label>
-                <input type="text" name="project_address" placeholder="42 Riverside Drive, Brisbane QLD 4000" required>
-              </div>
+        <div class="card-body">
+          <div class="grid2" style="margin-bottom:14px">
+            <div>
+              <label>Contact Name <span style="color:#e53e3e">*</span></label>
+              <input type="text" name="contact_name" placeholder="David Lee" required>
             </div>
             <div>
-              <label>Project Understanding <span class="opt">(1–2 sentences)</span></label>
-              <textarea name="project_understanding" rows="3"
-                placeholder="We understand the project involves…"></textarea>
+              <label>Company</label>
+              <input type="text" name="company_name" placeholder="Skyline Developments Pty Ltd">
+            </div>
+            <div>
+              <label>Contact Email <span style="color:#e53e3e">*</span></label>
+              <input type="email" name="contact_email" placeholder="david@skyline.com.au">
+            </div>
+            <div>
+              <label>Project / Site Address <span style="color:#e53e3e">*</span></label>
+              <input type="text" name="project_address" placeholder="42 Riverside Drive, Brisbane QLD 4000" required>
+            </div>
+          </div>
+          <div>
+            <label>Project Understanding <span class="opt">(1–2 sentences)</span></label>
+            <textarea name="project_understanding" rows="3"
+              placeholder="We understand the project involves…"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. SCOPE -->
+      <div class="card">
+        <div class="card-head">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M9 11l3 3L22 4"></path>
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+          </svg>
+          Scope of Services
+        </div>
+        <div class="card-body">
+          <div class="checks">
+            <label class="chk-label"><input type="checkbox" name="is_da" id="cb_da"> Development Approval (DA)</label>
+            <label class="chk-label"><input type="checkbox" name="is_dd" id="cb_dd"> Detailed Design (DD)</label>
+            <label class="chk-label"><input type="checkbox" name="is_uu" id="cb_uu"> Urban Utilities (UU)</label>
+            <label class="chk-label"><input type="checkbox" name="is_uw" id="cb_uw" onchange="toggleUW()"> Certifier
+              (UW)</label>
+            <label class="chk-label"><input type="checkbox" name="uu_works_only"> UU Works Only</label>
+          </div>
+          <div id="uw-level-row">
+            <label style="margin:0;white-space:nowrap">UW Level:</label>
+            <select name="uw_level">
+              <option value="Minor">Minor</option>
+              <option value="Major">Major</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. CAPABILITY -->
+      <div class="card">
+        <div class="card-head">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="12" cy="8" r="6"></circle>
+            <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path>
+          </svg>
+          Capability Profile
+        </div>
+        <div class="card-body">
+          <div class="cap-grid">
+            <label class="cap-tile"><input type="radio" name="capability_profile" value="residential" checked
+                onchange="capChange()"> Residential Subdivision</label>
+            <label class="cap-tile"><input type="radio" name="capability_profile" value="commercial"
+                onchange="capChange()"> Commercial &amp; Industrial</label>
+            <label class="cap-tile"><input type="radio" name="capability_profile" value="infrastructure"
+                onchange="capChange()"> Civil Infrastructure</label>
+            <label class="cap-tile"><input type="radio" name="capability_profile" value="stormwater"
+                onchange="capChange()"> Stormwater &amp; Drainage</label>
+            <label class="cap-tile"><input type="radio" name="capability_profile" value="custom" onchange="capChange()">
+              Custom…</label>
+          </div>
+          <div id="custom-cap">
+            <div style="margin-bottom:10px">
+              <label>Custom Profile Title</label>
+              <input type="text" name="capability_title" placeholder="e.g. Land Development">
+            </div>
+            <div>
+              <label>Custom Profile Body</label>
+              <textarea name="capability_body" rows="3"
+                placeholder="Describe your firm's relevant capability…"></textarea>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- 3. SCOPE -->
-        <div class="card">
-          <div class="card-head">✅ Scope of Services</div>
-          <div class="card-body">
-            <div class="checks">
-              <label class="chk-label"><input type="checkbox" name="is_da" id="cb_da"> Development Approval (DA)</label>
-              <label class="chk-label"><input type="checkbox" name="is_dd" id="cb_dd"> Detailed Design (DD)</label>
-              <label class="chk-label"><input type="checkbox" name="is_uu" id="cb_uu"> Urban Utilities (UU)</label>
-              <label class="chk-label"><input type="checkbox" name="is_uw" id="cb_uw" onchange="toggleUW()"> Certifier
-                (UW)</label>
-              <label class="chk-label"><input type="checkbox" name="uu_works_only"> UU Works Only</label>
-            </div>
-            <div id="uw-level-row">
-              <label style="margin:0; white-space:nowrap">UW Level:</label>
-              <select name="uw_level">
-                <option value="Minor">Minor</option>
-                <option value="Major">Major</option>
-              </select>
-            </div>
-          </div>
+      <!-- 5. FEE SCHEDULE -->
+      <div class="card">
+        <div class="card-head">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <line x1="12" y1="1" x2="12" y2="23"></line>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+          </svg>
+          Fee Schedule
         </div>
+        <div class="card-body">
+          <table class="row-table">
+            <thead>
+              <tr>
+                <th>Service Component</th>
+                <th style="width:130px">Fee (AUD ex GST)</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="fee-rows">
+              <tr>
+                <td><input type="text" name="fee_desc[]" placeholder="Development Approval (DA) civil engineering"></td>
+                <td class="amount-cell"><input type="text" name="fee_amount[]" placeholder="8,500.00"></td>
+                <td>
+                  <button type="button" class="btn-del" onclick="delRow(this)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <button type="button" class="btn-add" onclick="addFeeRow()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Add fee line
+          </button>
 
-        <!-- 4. CAPABILITY -->
-        <div class="card">
-          <div class="card-head">🏅 Capability Profile</div>
-          <div class="card-body">
-            <div class="cap-grid">
-              <label class="cap-tile"><input type="radio" name="capability_profile" value="residential" checked
-                  onchange="capChange()"> Residential Subdivision</label>
-              <label class="cap-tile"><input type="radio" name="capability_profile" value="commercial"
-                  onchange="capChange()"> Commercial &amp; Industrial</label>
-              <label class="cap-tile"><input type="radio" name="capability_profile" value="infrastructure"
-                  onchange="capChange()"> Civil Infrastructure</label>
-              <label class="cap-tile"><input type="radio" name="capability_profile" value="stormwater"
-                  onchange="capChange()"> Stormwater &amp; Drainage</label>
-              <label class="cap-tile"><input type="radio" name="capability_profile" value="custom"
-                  onchange="capChange()"> Custom…</label>
+          <div style="margin-top:20px;border-top:1px solid #e2e8f0;padding-top:16px">
+            <div
+              style="font-size:12px;font-weight:600;color:#4a5568;margin-bottom:10px;text-transform:uppercase;letter-spacing:.4px">
+              Hourly Rates <span style="font-weight:400;color:#a0aec0">(optional)</span>
             </div>
-            <div id="custom-cap">
-              <div style="margin-bottom:10px">
-                <label>Custom Profile Title</label>
-                <input type="text" name="capability_title" placeholder="e.g. Land Development">
-              </div>
-              <div>
-                <label>Custom Profile Body</label>
-                <textarea name="capability_body" rows="3"
-                  placeholder="Describe your firm's relevant capability…"></textarea>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 5. FEE SCHEDULE -->
-        <div class="card">
-          <div class="card-head">💰 Fee Schedule</div>
-          <div class="card-body">
             <table class="row-table">
               <thead>
                 <tr>
-                  <th>Service Component</th>
-                  <th style="width:130px">Fee (AUD ex GST)</th>
+                  <th>Role</th>
+                  <th style="width:160px">Rate (AUD/hr ex GST)</th>
                   <th></th>
                 </tr>
               </thead>
-              <tbody id="fee-rows">
-                <tr>
-                  <td><input type="text" name="fee_desc[]" placeholder="Development Approval (DA) civil engineering">
-                  </td>
-                  <td class="amount-cell"><input type="text" name="fee_amount[]" placeholder="8,500.00"></td>
-                  <td><button type="button" class="btn-del" onclick="delRow(this)">×</button></td>
-                </tr>
-              </tbody>
+              <tbody id="hr-rows"></tbody>
             </table>
-            <button type="button" class="btn-add" onclick="addFeeRow()">+ Add fee line</button>
+            <button type="button" class="btn-add" onclick="addHrRow()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              Add hourly rate
+            </button>
+          </div>
 
-            <div style="margin-top:20px;border-top:1px solid #e2e8f0;padding-top:16px">
-              <div
-                style="font-size:12px;font-weight:600;color:#4a5568;margin-bottom:10px;text-transform:uppercase;letter-spacing:.4px">
-                Hourly Rates <span style="font-weight:400;color:#a0aec0">(optional)</span>
+          <div style="margin-top:16px">
+            <label>Payment Terms</label>
+            <input type="text" name="payment_terms"
+              value="Fees are invoiced at agreed milestones, payable within 14 days.">
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. ASSUMPTIONS / EXCLUSIONS -->
+      <div class="card">
+        <div class="card-head">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M9 11l3 3L22 4"></path>
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+          </svg>
+          Assumptions &amp; Exclusions
+        </div>
+        <div class="card-body grid2">
+          <div>
+            <label style="margin-bottom:8px">Assumptions</label>
+            <div id="assumption-list">
+              <div class="list-item">
+                <input type="text" name="assumption[]" placeholder="A current detail survey will be provided.">
+                <button type="button" class="btn-del" onclick="delRow(this)">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
               </div>
-              <table class="row-table">
-                <thead>
-                  <tr>
-                    <th>Role</th>
-                    <th style="width:160px">Rate (AUD/hr ex GST)</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody id="hr-rows"></tbody>
-              </table>
-              <button type="button" class="btn-add" onclick="addHrRow()">+ Add hourly rate</button>
             </div>
-
-            <div style="margin-top:16px">
-              <label>Payment Terms</label>
-              <input type="text" name="payment_terms"
-                value="Fees are invoiced at agreed milestones, payable within 14 days.">
-            </div>
+            <button type="button" class="btn-add"
+              onclick="addListItem('assumption-list','assumption[]','Add assumption')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              Add
+            </button>
           </div>
-        </div>
-
-        <!-- 6. ASSUMPTIONS / EXCLUSIONS -->
-        <div class="card">
-          <div class="card-head">📋 Assumptions &amp; Exclusions</div>
-          <div class="card-body grid2">
-            <div>
-              <label style="margin-bottom:8px">Assumptions</label>
-              <div id="assumption-list">
-                <div class="list-item">
-                  <input type="text" name="assumption[]" placeholder="A current detail survey will be provided.">
-                  <button type="button" class="btn-del" onclick="delRow(this)">×</button>
-                </div>
+          <div>
+            <label style="margin-bottom:8px">Exclusions</label>
+            <div id="exclusion-list">
+              <div class="list-item">
+                <input type="text" name="exclusion[]" placeholder="Authority application and lodgement fees.">
+                <button type="button" class="btn-del" onclick="delRow(this)">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
               </div>
-              <button type="button" class="btn-add"
-                onclick="addListItem('assumption-list','assumption[]','Add assumption')">+ Add</button>
             </div>
-            <div>
-              <label style="margin-bottom:8px">Exclusions</label>
-              <div id="exclusion-list">
-                <div class="list-item">
-                  <input type="text" name="exclusion[]" placeholder="Authority application and lodgement fees.">
-                  <button type="button" class="btn-del" onclick="delRow(this)">×</button>
-                </div>
-              </div>
-              <button type="button" class="btn-add"
-                onclick="addListItem('exclusion-list','exclusion[]','Add exclusion')">+ Add</button>
-            </div>
+            <button type="button" class="btn-add" onclick="addListItem('exclusion-list','exclusion[]','Add exclusion')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              Add
+            </button>
           </div>
         </div>
+      </div>
 
-        <!-- 7. SENDER -->
-        <details class="card" style="overflow:visible">
-          <summary class="card-head" style="cursor:pointer;list-style:none;display:flex;justify-content:space-between">
-            <span>👤 Sender Details</span>
-            <span style="color:#a0aec0;font-weight:400">▾</span>
-          </summary>
-          <div class="card-body grid2">
-            <div><label>Name</label><input type="text" name="sender_name" value="Gina Harper"></div>
-            <div><label>Title</label><input type="text" name="sender_title" value="Director"></div>
-            <div><label>Email</label><input type="email" name="sender_email" value="gina@conceptengineers.com.au"></div>
-            <div><label>Phone</label><input type="text" name="sender_phone" value="+61 7 0000 0000"></div>
-          </div>
-        </details>
-
-        <!-- SUBMIT BAR -->
-        <div class="submit-bar">
-          <button type="button" class="btn-submit" id="btnGenerate" onclick="handleGenerate()">
-            Generate &amp; Send Proposal
-          </button>
-          <select name="output_fmt" id="output_fmt" style="cursor:pointer; height:40px;">
-            <option value="docx">Download as DOCX</option>
-            <option value="pdf">Download as PDF</option>
-          </select>
-          <div class="spinner" id="spinner">
-            <div class="spin-ring"></div>
-            <span id="spinnerMsg">Processing…</span>
-          </div>
+      <!-- 7. SENDER -->
+      <details class="card" style="overflow:visible">
+        <summary class="card-head" style="cursor:pointer;list-style:none;display:flex;justify-content:space-between">
+          <span style="display:flex;align-items:center;gap:8px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" style="width:15px;height:15px;">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            Sender Details
+          </span>
+          <span style="color:#a0aec0;font-weight:400">▾</span>
+        </summary>
+        <div class="card-body grid2">
+          <div><label>Name</label><input type="text" name="sender_name" value="Gina Harper"></div>
+          <div><label>Title</label><input type="text" name="sender_title" value="Director"></div>
+          <div><label>Email</label><input type="email" name="sender_email" value="gina@conceptengineers.com.au"></div>
+          <div><label>Phone</label><input type="text" name="sender_phone" value="+61 7 0000 0000"></div>
         </div>
+      </details>
 
-      </form>
-    </div>
-  </div>
-
-  <!-- VIEW 2: TEMPLATES -->
-  <div class="view" id="view-templates">
-    <div class="tpl-page">
-
-      <div class="tpl-header">
-        <div>
-          <h2>DocuSeal Templates</h2>
-          <p>All uploaded proposal templates from DocuSeal.</p>
-        </div>
-        <div style="display:flex;gap:10px;">
-          <button class="btn btn-outline" onclick="loadTemplates()">Refresh</button>
-          <button class="btn btn-primary" onclick="switchTab('proposal')">+ New Proposal</button>
+      <!-- SUBMIT BAR -->
+      <div class="submit-bar">
+        <button type="button" class="btn-submit" id="btnGenerate" onclick="handleGenerate()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+          Generate Proposal
+        </button>
+        <select name="output_fmt" id="output_fmt" style="cursor:pointer;height:40px;">
+          <option value="docx">Download as DOCX</option>
+          <option value="pdf">Download as PDF</option>
+        </select>
+        <div class="spinner" id="spinner">
+          <div class="spin-ring"></div>
+          <span id="spinnerMsg">Processing…</span>
         </div>
       </div>
 
-      <div class="stats">
-        <div class="stat-card">
-          <div class="num" id="statTotal">—</div>
-          <div class="lbl">Total Templates</div>
-        </div>
-        <div class="stat-card">
-          <div class="num" id="statToday">—</div>
-          <div class="lbl">Created Today</div>
-        </div>
-        <div class="stat-card">
-          <div class="num" id="statWeek">—</div>
-          <div class="lbl">This Week</div>
-        </div>
-      </div>
-
-      <div class="toolbar">
-        <div class="search-box">
-          <span class="search-icon">🔍</span>
-          <input type="text" id="searchInput" placeholder="Search by name or ID…" oninput="filterTemplates()">
-        </div>
-      </div>
-
-      <div class="templates-grid" id="templatesGrid">
-        <div class="sk-card">
-          <div class="skeleton sk-line sk-short"></div>
-          <div class="skeleton sk-line sk-long"></div>
-          <div class="skeleton sk-line sk-medium"></div>
-        </div>
-        <div class="sk-card">
-          <div class="skeleton sk-line sk-short"></div>
-          <div class="skeleton sk-line sk-long"></div>
-          <div class="skeleton sk-line sk-medium"></div>
-        </div>
-        <div class="sk-card">
-          <div class="skeleton sk-line sk-short"></div>
-          <div class="skeleton sk-line sk-long"></div>
-          <div class="skeleton sk-line sk-medium"></div>
-        </div>
-      </div>
-
-      <div class="pagination" id="pagination"></div>
-
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════
-       SIGN MODAL — DocuSeal embedded signing form
-  ════════════════════════════════════════════════ -->
-  <div class="modal-backdrop" id="signModal" onclick="handleSignModalBackdrop(event)">
-    <div class="modal sign-modal-inner">
-      <div class="sign-modal-header">
-        <div>
-          <h3>✍️ Sign Proposal</h3>
-          <p style="margin:2px 0 0;font-size:12px;color:#718096;" id="signModalSubtitle"></p>
-        </div>
-        <button class="btn btn-outline btn-sm" onclick="closeSignModal()">✕ Close</button>
-      </div>
-      <div class="sign-modal-body" id="signFormContainer">
-        <!-- DocuSeal <docuseal-form> element injected here by openSignModal() -->
-      </div>
-    </div>
-  </div>
-
-  <!-- DELETE MODAL -->
-  <div class="modal-backdrop" id="deleteModal">
-    <div class="modal">
-      <h3>Delete Template?</h3>
-      <p id="deleteModalMsg">This will permanently delete the template from DocuSeal.</p>
-      <div class="modal-actions">
-        <button class="btn btn-outline" onclick="closeDeleteModal()">Cancel</button>
-        <button class="btn" style="background:#ef4444;color:white;" onclick="confirmDelete()">Delete</button>
-      </div>
-    </div>
+    </form>
   </div>
 
   <script>
-    // ── TAB SWITCHING ──────────────────────────────────────────────────────────
-    function switchTab(tab) {
-      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-      document.getElementById('view-' + tab).classList.add('active');
-      document.getElementById('tab-' + tab).classList.add('active');
-      if (tab === 'templates') loadTemplates();
-      window.scrollTo(0, 0);
-    }
-
     document.getElementById('proposalDate').valueAsDate = new Date();
 
     // ── TOAST ──────────────────────────────────────────────────────────────────
@@ -1242,134 +868,44 @@
       }).showToast();
     }
 
-    const fmtDateTime = (d) =>
-      new Date(d).toLocaleString("en-GB", {
-        day: "2-digit", month: "short",
-        hour: "2-digit", minute: "2-digit", hour12: true,
-      });
-
     // ── FORM HELPERS ───────────────────────────────────────────────────────────
     function toggleUW() {
       document.getElementById('uw-level-row').classList.toggle('visible', document.getElementById('cb_uw').checked);
     }
-
     function capChange() {
       const val = document.querySelector('[name=capability_profile]:checked')?.value;
       document.getElementById('custom-cap').classList.toggle('visible', val === 'custom');
     }
 
+    const DEL_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
+
     function addFeeRow() {
       const tr = document.createElement('tr');
       tr.innerHTML = `<td><input type="text" name="fee_desc[]" placeholder="Service description"></td>
-        <td class="amount-cell"><input type="text" name="fee_amount[]" placeholder="0.00"></td>
-        <td><button type="button" class="btn-del" onclick="delRow(this)">×</button></td>`;
+    <td class="amount-cell"><input type="text" name="fee_amount[]" placeholder="0.00"></td>
+    <td><button type="button" class="btn-del" onclick="delRow(this)">${DEL_ICON}</button></td>`;
       document.getElementById('fee-rows').appendChild(tr);
       tr.querySelector('input').focus();
     }
-
     function addHrRow() {
       const tr = document.createElement('tr');
       tr.innerHTML = `<td><input type="text" name="hourly_role[]" placeholder="Senior Engineer"></td>
-        <td class="amount-cell"><input type="text" name="hourly_rate[]" placeholder="185.00"></td>
-        <td><button type="button" class="btn-del" onclick="delRow(this)">×</button></td>`;
+    <td class="amount-cell"><input type="text" name="hourly_rate[]" placeholder="185.00"></td>
+    <td><button type="button" class="btn-del" onclick="delRow(this)">${DEL_ICON}</button></td>`;
       document.getElementById('hr-rows').appendChild(tr);
       tr.querySelector('input').focus();
     }
-
     function addListItem(listId, fieldName, placeholder) {
       const div = document.createElement('div');
       div.className = 'list-item';
       div.innerHTML = `<input type="text" name="${fieldName}" placeholder="${placeholder}">
-        <button type="button" class="btn-del" onclick="delRow(this)">×</button>`;
+    <button type="button" class="btn-del" onclick="delRow(this)">${DEL_ICON}</button>`;
       document.getElementById(listId).appendChild(div);
       div.querySelector('input').focus();
     }
-
     function delRow(btn) {
       const row = btn.closest('tr') || btn.closest('.list-item');
       if (row) row.remove();
-    }
-
-    // ── DOCUSEAL SIGN MODAL ────────────────────────────────────────────────────
-    // Opens the DocuSeal embedded signing widget inside a modal.
-    // slug     → submitter slug  (from /submissions response, format: /s/{slug})
-    //            OR template slug (from template object, format: /d/{slug})
-    // email    → pre-fills the signer email field
-    // name     → pre-fills the signer name
-    // isSubmitter → true  = /s/{slug} (individual signer URL, no email prompt)
-    //               false = /d/{slug} (template form URL, shows email step)
-
-    function openSignModal(slug, email, name, isSubmitter = true) {
-      const container = document.getElementById('signFormContainer');
-      const subtitle = document.getElementById('signModalSubtitle');
-      const modal = document.getElementById('signModal');
-
-      // Clear any previous widget
-      container.innerHTML = '';
-
-      // Update subtitle
-      subtitle.textContent = email
-        ? `Signing as ${name || ''} <${email}>`
-        : 'Fill in your details to sign the proposal';
-
-      // Build the URL: /s/{slug} for submitter, /d/{slug} for template preview
-      const src = isSubmitter
-        ? `https://docuseal.com/s/${slug}`
-        : `https://docuseal.com/d/${slug}`;
-
-      // Create the docuseal-form custom element
-      const form = document.createElement('docuseal-form');
-      form.setAttribute('data-src', src);
-      form.setAttribute('data-expand', 'true');
-      form.setAttribute('data-with-title', 'true');
-      form.setAttribute('data-go-to-last', 'true');
-      form.setAttribute('data-with-field-names', 'false');
-      form.setAttribute('data-order-as-on-page', 'true');
-      form.setAttribute('data-autoscroll-fields', 'true');
-      form.setAttribute('data-with-download-button', 'true');
-      form.setAttribute('data-background-color', '#ffffff');
-      form.setAttribute('data-custom-css',
-        '#submit_form_button { background-color: #1f3355 !important; border-color: #1f3355 !important; }' +
-        '#submit_form_button:hover { background-color: #2e75b6 !important; }'
-      );
-
-      // Pre-fill email and name only when using submitter URL
-      if (isSubmitter && email) form.setAttribute('data-email', email);
-      if (isSubmitter && name) form.setAttribute('data-name', name);
-
-      // Completion callback
-      form.addEventListener('completed', (e) => {
-        showToast('✅ Proposal signed successfully!', 'success');
-        closeSignModal();
-        // Reload templates view if open to reflect updated field count
-        if (document.getElementById('view-templates').classList.contains('active')) {
-          loadTemplates();
-        }
-        console.log('[DocuSeal] signing completed:', e.detail);
-      });
-
-      // Decline callback
-      form.addEventListener('declined', () => {
-        showToast('Proposal was declined by the signer.', 'error');
-        closeSignModal();
-      });
-
-      container.appendChild(form);
-      modal.classList.add('open');
-    }
-
-    function closeSignModal() {
-      document.getElementById('signModal').classList.remove('open');
-      // Destroy the widget so it doesn't keep running in the background
-      document.getElementById('signFormContainer').innerHTML = '';
-      document.getElementById('signModalSubtitle').textContent = '';
-    }
-
-    // Close sign modal if user clicks the dark backdrop (not the inner modal)
-    function handleSignModalBackdrop(e) {
-      if (e.target === document.getElementById('signModal')) {
-        closeSignModal();
-      }
     }
 
     // ── PROPOSAL GENERATION + DOCUSEAL FLOW ───────────────────────────────────
@@ -1391,52 +927,35 @@
       spinner.classList.add('show');
 
       try {
-        // ── STEP 1: Generate DOCX as base64 ───────────────────────────────────
-        spinnerMsg.textContent = "Step 1/4 — Generating document…";
+        // STEP 1 — Generate DOCX as base64
+        spinnerMsg.textContent = "Step 1/3 — Generating document…";
         const formData = new FormData(form);
         const genRes = await fetch('/generate?base64=true', { method: 'POST', body: formData });
         const genData = await genRes.json();
         if (!genData.success) throw new Error(genData.error || "Document generation failed");
 
-        // ── STEP 2: Upload DOCX to DocuSeal ───────────────────────────────────
-        spinnerMsg.textContent = "Step 2/4 — Uploading to DocuSeal…";
+        // STEP 2 — Upload to DocuSeal
+        spinnerMsg.textContent = "Step 2/3 — Uploading to DocuSeal…";
         const ref = formData.get('proposal_ref') || 'CE';
         const docType = formData.get('document_type') || 'Proposal';
         const templateName = `${docType} - ${contactName} - ${ref}`;
 
         const uploadRes = await fetch('/api/upload-template', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ documentBase64: genData.documentBase64, templateName }),
         });
         const uploadData = await uploadRes.json();
         if (!uploadData.success) throw new Error(uploadData.error || "Upload failed");
 
-        // ── STEP 2b: Inject interactive signature fields ─────────────────────
-        spinnerMsg.textContent = "Step 2b/4 — Adding signature fields…";
-        const sigRes = await fetch(`/api/add-signature-fields/${uploadData.templateId}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            attachmentUuid: uploadData.attachmentUuid,
-            pageCount: uploadData.pageCount,
-          }),
-        });
-        const sigData = await sigRes.json();
-        // Make this FATAL — don't proceed if fields weren't injected
-        if (!sigData.success) throw new Error(sigData.error || "Signature field injection failed");
-
-        // ── STEP 3: Confirm template role ──────────────────────────────────────
-        spinnerMsg.textContent = "Step 3/4 — Confirming template…";
+        // STEP 2b — Confirm template
         const getRes = await fetch(`/api/get-template/${uploadData.templateId}`);
         const getData = await getRes.json();
         if (!getData.success) throw new Error("Template confirmation failed");
 
-        // ── STEP 4: Send submission → get per-signer slug ──────────────────────
-        spinnerMsg.textContent = "Step 4/4 — Sending to client…";
+        // STEP 3 — Send to client
+        spinnerMsg.textContent = "Step 3/3 — Sending to client…";
         const sendRes = await fetch('/api/send-proposal', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             templateId: uploadData.templateId,
             client_name: contactName,
@@ -1447,34 +966,54 @@
         const sendData = await sendRes.json();
         if (!sendData.success) throw new Error(sendData.error || "Send failed");
 
-        showToast(`✅ Proposal sent to ${contactEmail}`, "success");
+        showToast(`Proposal sent to ${contactEmail}`, "success");
 
-        // ── Auto-download DOCX/PDF ─────────────────────────────────────────────
+        // Show signing banner
+        if (sendData.signingUrl) {
+          const old = document.getElementById('signing-banner');
+          if (old) old.remove();
+          const banner = document.createElement('div');
+          banner.id = 'signing-banner';
+          banner.className = 'signing-banner';
+          banner.innerHTML = `
+        <div class="banner-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          Proposal Sent!
+        </div>
+        <div style="font-size:13px;color:#4a5568;margin-bottom:12px;">
+          Signing email sent to <strong>${contactEmail}</strong>. Share this link directly if needed:
+        </div>
+        <a href="${sendData.signingUrl}" target="_blank" class="banner-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+          Open Client Signing Page
+        </a>
+        <div style="font-size:11px;color:#718096;word-break:break-all;margin-bottom:8px;" id="signingUrlText">${sendData.signingUrl}</div>
+        <div class="banner-actions">
+          <button class="btn-copy-link" onclick="copySigningLink()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy Link
+          </button>
+          <button class="btn-close-banner" onclick="document.getElementById('signing-banner').remove()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            Close
+          </button>
+        </div>`;
+          document.body.appendChild(banner);
+        }
+
+        // Auto-download document
         const fmt = document.getElementById('output_fmt')?.value || 'docx';
         const ext = fmt === 'pdf' ? '.pdf' : '.docx';
-        const mime = fmt === 'pdf'
-          ? 'application/pdf'
+        const mime = fmt === 'pdf' ? 'application/pdf'
           : 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
         const a = document.createElement('a');
         a.href = `data:${mime};base64,${genData.documentBase64}`;
         a.download = `${ref}${ext}`;
         a.click();
 
-        // ── Open DocuSeal signing form embedded in modal ───────────────────────
-        // sendData.signingUrl = "https://docuseal.com/s/{submitterSlug}"
-        if (sendData.signingUrl) {
-          const submitterSlug = sendData.signingUrl.split('/s/')[1];
-          if (submitterSlug) {
-            // Small delay so the download doesn't fight with modal open
-            setTimeout(() => {
-              openSignModal(submitterSlug, contactEmail, contactName, true);
-            }, 600);
-          }
-        }
-
       } catch (err) {
         console.error(err);
-        showToast("❌ " + (err.message || "Unknown error"), "error");
+        showToast(err.message || "Unknown error", "error");
       } finally {
         btn.disabled = false;
         spinner.classList.remove('show');
@@ -1482,243 +1021,10 @@
       }
     }
 
-    // ── TEMPLATES — PAGINATION STATE ──────────────────────────────────────────
-    const PAGE_SIZE = 12;
-    let allTemplates = [];
-    let filteredTemplates = [];
-    let currentPage = 1;
-    let deleteTargetId = null;
-
-    function isToday(str) { return str && new Date(str).toDateString() === new Date().toDateString(); }
-    function isThisWeek(str) { return str && (new Date() - new Date(str)) / 86400000 <= 7; }
-
-    function escHtml(s) {
-      return String(s)
-        .replace(/&/g, "&amp;").replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-    }
-
-    // ── LOAD ALL TEMPLATES ─────────────────────────────────────────────────────
-    async function loadTemplates() {
-      const grid = document.getElementById('templatesGrid');
-      const skCard = `<div class="sk-card"><div class="skeleton sk-line sk-short"></div><div class="skeleton sk-line sk-long"></div><div class="skeleton sk-line sk-medium"></div></div>`;
-      grid.innerHTML = skCard.repeat(6);
-      document.getElementById('pagination').innerHTML = '';
-
-      try {
-        const resp = await fetch('/api/all-templates');
-        const data = await resp.json();
-        if (!resp.ok || data.error) throw new Error(data.error || "Failed to load");
-
-        allTemplates = data.templates || [];
-        filteredTemplates = [...allTemplates];
-        currentPage = 1;
-
-        document.getElementById('statTotal').textContent = allTemplates.length;
-        document.getElementById('statToday').textContent = allTemplates.filter(t => isToday(t.created_at)).length;
-        document.getElementById('statWeek').textContent = allTemplates.filter(t => isThisWeek(t.created_at)).length;
-
-        const badge = document.getElementById('tplCount');
-        badge.textContent = allTemplates.length;
-        badge.style.display = allTemplates.length ? 'inline' : 'none';
-
-        renderPage();
-
-      } catch (err) {
-        grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
-          <div class="icon">⚠️</div>
-          <h3>Failed to load templates</h3>
-          <p>${err.message}</p>
-          <button class="btn btn-primary" style="margin-top:16px;" onclick="loadTemplates()">Try Again</button>
-        </div>`;
-        showToast(err.message, "error");
-      }
-    }
-
-    // ── RENDER CURRENT PAGE ────────────────────────────────────────────────────
-    function renderPage() {
-      const total = filteredTemplates.length;
-      const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
-      currentPage = Math.min(currentPage, totalPages);
-
-      const start = (currentPage - 1) * PAGE_SIZE;
-      const slice = filteredTemplates.slice(start, start + PAGE_SIZE);
-
-      renderTemplates(slice);
-      renderPagination(totalPages, total);
-    }
-
-    // ── RENDER PAGINATION BAR ──────────────────────────────────────────────────
-    function renderPagination(totalPages, total) {
-      const pg = document.getElementById('pagination');
-      const start = (currentPage - 1) * PAGE_SIZE + 1;
-      const end = Math.min(currentPage * PAGE_SIZE, total);
-
-      if (total === 0) { pg.innerHTML = ''; return; }
-
-      // Build page numbers with ellipsis
-      const pages = [];
-      for (let i = 1; i <= totalPages; i++) {
-        if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
-          pages.push(i);
-        }
-      }
-
-      const btns = [];
-      let prev = null;
-      for (const p of pages) {
-        if (prev !== null && p - prev > 1) btns.push('…');
-        btns.push(p);
-        prev = p;
-      }
-
-      pg.innerHTML = `
-        <button class="pg-btn" onclick="goPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>‹ Prev</button>
-        ${btns.map(b => b === '…'
-        ? `<span class="pg-info">…</span>`
-        : `<button class="pg-btn ${b === currentPage ? 'active' : ''}" onclick="goPage(${b})">${b}</button>`
-      ).join('')}
-        <button class="pg-btn" onclick="goPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>Next ›</button>
-        <span class="pg-info">${start}–${end} of ${total}</span>`;
-    }
-
-    function goPage(p) {
-      const totalPages = Math.ceil(filteredTemplates.length / PAGE_SIZE);
-      if (p < 1 || p > totalPages) return;
-      currentPage = p;
-      renderPage();
-      document.getElementById('templatesGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    // ── SEARCH FILTER ──────────────────────────────────────────────────────────
-    function filterTemplates() {
-      const q = document.getElementById('searchInput').value.toLowerCase();
-      filteredTemplates = q
-        ? allTemplates.filter(t => (t.name || "").toLowerCase().includes(q) || String(t.id).includes(q))
-        : [...allTemplates];
-      currentPage = 1;
-      renderPage();
-    }
-
-    // ── RENDER TEMPLATE CARDS ──────────────────────────────────────────────────
-    function renderTemplates(templates) {
-      const grid = document.getElementById('templatesGrid');
-
-      if (!templates.length) {
-        grid.innerHTML = `<div class="empty-state">
-          <div class="icon">📄</div>
-          <h3>No templates found</h3>
-          <p>Generate a proposal to create your first template.</p>
-          <button class="btn btn-primary" style="margin-top:16px;" onclick="switchTab('proposal')">+ New Proposal</button>
-        </div>`;
-        return;
-      }
-
-      grid.innerHTML = templates.map(t => {
-        const docCount = (t.documents || []).length;
-        const fieldCount = (t.fields || []).length;
-        const name = t.name || "Untitled Template";
-        const tplSlug = t.slug || null;   // template-level slug for preview
-        const icon = name.toLowerCase().includes("proposal") ? "📋"
-          : name.toLowerCase().includes("variation") ? "🔄"
-            : name.toLowerCase().includes("agreement") ? "🤝" : "📄";
-
-        return `
-          <div class="template-card" id="tc-${t.id}">
-            <div class="tc-head">
-              <div class="tc-icon">${icon}</div>
-              <div class="tc-name">${escHtml(name)}</div>
-              <div class="tc-id">ID: ${t.id}</div>
-              <div class="tc-id">By: ${escHtml((t.author?.first_name ?? '') + ' ' + (t.author?.last_name ?? '')).trim()}</div>
-              <div class="tc-meta">
-                <span class="badge badge-blue">📄 ${docCount} doc${docCount !== 1 ? "s" : ""}</span>
-                ${fieldCount
-            ? `<span class="badge badge-green">✏️ ${fieldCount} field${fieldCount !== 1 ? "s" : ""}</span>`
-            : `<span class="badge badge-grey">No fields</span>`}
-              </div>
-            </div>
-            <div class="tc-footer" id="tcf-${t.id}">
-              <span class="tc-date">Created ${fmtDateTime(t.created_at)}</span>
-              ${tplSlug
-            ? `<button class="btn btn-outline btn-sm"
-                     onclick="openSignModal('${escHtml(tplSlug)}', '', '', false)"
-                     title="Preview signing form">
-                     👁 Preview
-                   </button>`
-            : ''}
-              <a href="https://docuseal.com/templates/${t.id}/edit" target="_blank"
-                 class="btn btn-outline btn-sm">✏️ Edit</a>
-              <button class="btn btn-danger btn-sm"
-                      onclick="askDelete(${t.id}, '${escHtml(name).replace(/'/g, "\\'")}')">
-                🗑 Delete
-              </button>
-            </div>
-          </div>`;
-      }).join("");
-    }
-
-    // ── DELETE FLOW ────────────────────────────────────────────────────────────
-    function askDelete(id, name) {
-      deleteTargetId = id;
-      document.getElementById('deleteModalMsg').textContent =
-        `Delete "${name}" (ID: ${id})? This cannot be undone.`;
-      document.getElementById('deleteModal').classList.add('open');
-    }
-
-    function closeDeleteModal() {
-      document.getElementById('deleteModal').classList.remove('open');
-      deleteTargetId = null;
-    }
-
-    async function confirmDelete() {
-      if (!deleteTargetId) return;
-      const id = deleteTargetId;
-      closeDeleteModal();
-
-      // ── Show loading state on card ─────────────────────────────────────────
-      const card = document.getElementById(`tc-${id}`);
-      const footer = document.getElementById(`tcf-${id}`);
-
-      if (card) card.classList.add('card-deleting');
-      if (footer) {
-        footer.innerHTML = `
-          <div class="del-loading">
-            <div class="del-spin"></div>
-            Deleting template…
-          </div>`;
-      }
-
-      try {
-        const resp = await fetch(`/api/delete-template/${id}`, { method: 'DELETE' });
-        const data = await resp.json();
-        if (!resp.ok || data.error) throw new Error(data.error || "Delete failed");
-
-        // ── Animate card out, then remove ─────────────────────────────────────
-        if (card) {
-          card.style.transform = 'scale(0.93)';
-          card.style.opacity = '0';
-          setTimeout(() => card.remove(), 320);
-        }
-
-        allTemplates = allTemplates.filter(t => t.id !== id);
-        filteredTemplates = filteredTemplates.filter(t => t.id !== id);
-
-        document.getElementById('statTotal').textContent = allTemplates.length;
-        document.getElementById('tplCount').textContent = allTemplates.length;
-
-        // Re-render pagination (card already removed from DOM visually)
-        setTimeout(() => renderPage(), 350);
-
-        showToast("Template deleted", "success");
-
-      } catch (err) {
-        // Restore card on failure
-        if (card) card.classList.remove('card-deleting');
-        if (footer) {
-          // Re-render just this card's footer
-          renderPage();
-        }
-        showToast(err.message, "error");
+    function copySigningLink() {
+      const url = document.getElementById('signingUrlText')?.textContent;
+      if (url) {
+        navigator.clipboard.writeText(url).then(() => showToast('Copied!', 'success'));
       }
     }
   </script>
